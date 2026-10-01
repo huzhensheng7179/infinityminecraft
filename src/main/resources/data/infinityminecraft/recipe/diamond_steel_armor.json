@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "DDD",
+    "DAD",
+    "DDD"
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "A": "infinityminecraft:gold_steel_armor"
+  },
+  "result": {
+    "id": "infinityminecraft:diamond_steel_armor",
+    "count": 1
+  }
+}

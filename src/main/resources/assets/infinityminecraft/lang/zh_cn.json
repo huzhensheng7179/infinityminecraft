@@ -1,0 +1,33 @@
+{
+  "itemGroup.infinityminecraft": "无限方块",
+  "block.infinityminecraft.example_block": "示例方块",
+  "item.infinityminecraft.example_item": "示例物品",
+  "item.infinityminecraft.arrow_deflection_ring": "避箭之戒",
+  "item.infinityminecraft.flawless_star": "无暇辰星",
+  "item.infinityminecraft.baguette_talisman": "法棍护符",
+  "item.infinityminecraft.baka_sunflower_badge": "baka向日葵吧唧",
+  "item.infinityminecraft.iron_steel_armor": "铁·钢甲",
+  "item.infinityminecraft.gold_steel_armor": "金·钢甲",
+  "item.infinityminecraft.diamond_steel_armor": "钻石·钢甲",
+  "item.infinityminecraft.netherite_steel_armor": "下界合金·钢甲",
+  "item.infinityminecraft.nether_star_steel_armor": "下界之星·钢甲",
+  "item.infinityminecraft.nailong_mask": "奶龙面具",
+  "item.infinityminecraft.bing_bing_bing": "冰冰冰",
+  "item.infinityminecraft.stone_mask": "石鬼面",
+  "item.infinityminecraft.nut_wall": "坚果墙",
+  "item.infinityminecraft.meteor_streak": "流星一条",
+  "item.infinityminecraft.mysterious_coin": "神秘硬币",
+  "item.infinityminecraft.jie_toilet_cleaner": "“杰”厕灵",
+  "item.infinityminecraft.crude_spicy_candy": "粗制辣味糖果",
+  "item.infinityminecraft.fire_and_steel": "火与钢",
+
+  "jei.infinityminecraft.flawless_star.desc": "在锻造台中与任意锻造模板和任意带耐久物品一起使用，可为物品附上无法破坏属性。",
+
+  "infinityminecraft.configuration.title": "无限方块 配置",
+  "infinityminecraft.configuration.section.infinityminecraft.common.toml": "无限方块 配置",
+  "infinityminecraft.configuration.section.infinityminecraft.common.toml.title": "无限方块 配置",
+  "infinityminecraft.configuration.items": "物品列表",
+  "infinityminecraft.configuration.logDirtBlock": "记录泥土方块",
+  "infinityminecraft.configuration.magicNumberIntroduction": "魔法数字文本",
+  "infinityminecraft.configuration.magicNumber": "魔法数字"
+}

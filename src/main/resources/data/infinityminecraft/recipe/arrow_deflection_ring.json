@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "NBN",
+    "CDF",
+    "NRN"
+  ],
+  "key": {
+    "N": "minecraft:netherite_scrap",
+    "B": "minecraft:bow",
+    "C": "minecraft:crossbow",
+    "D": "minecraft:redstone_block",
+    "F": "minecraft:fire_charge",
+    "R": "minecraft:firework_rocket"
+  },
+  "result": {
+    "id": "infinityminecraft:arrow_deflection_ring",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "DDD",
+    "DND",
+    "DDD"
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "N": "minecraft:nether_star"
+  },
+  "result": {
+    "id": "infinityminecraft:flawless_star",
+    "count": 1
+  }
+}

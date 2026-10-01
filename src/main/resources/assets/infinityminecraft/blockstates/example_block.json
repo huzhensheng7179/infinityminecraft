@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "infinityminecraft:block/example_block"
+    }
+  }
+}

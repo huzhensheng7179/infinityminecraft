@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "infinityminecraft:iron_steel_armor",
+    "infinityminecraft:gold_steel_armor",
+    "infinityminecraft:diamond_steel_armor",
+    "infinityminecraft:netherite_steel_armor",
+    "infinityminecraft:nether_star_steel_armor",
+    "infinityminecraft:fire_and_steel"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "infinityminecraft:item/nether_star_steel_armor"
+  }
+}

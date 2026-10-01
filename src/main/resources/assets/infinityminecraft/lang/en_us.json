@@ -1,0 +1,33 @@
+{
+  "itemGroup.infinityminecraft": "Example Mod Tab",
+  "block.infinityminecraft.example_block": "Example Block",
+  "item.infinityminecraft.example_item": "Example Item",
+  "item.infinityminecraft.arrow_deflection_ring": "Arrow Deflection Ring",
+  "item.infinityminecraft.flawless_star": "Flawless Star",
+  "item.infinityminecraft.baguette_talisman": "Baguette Talisman",
+  "item.infinityminecraft.baka_sunflower_badge": "Baka Sunflower Badge",
+  "item.infinityminecraft.iron_steel_armor": "Iron Steel Armor",
+  "item.infinityminecraft.gold_steel_armor": "Gold Steel Armor",
+  "item.infinityminecraft.diamond_steel_armor": "Diamond Steel Armor",
+  "item.infinityminecraft.netherite_steel_armor": "Netherite Steel Armor",
+  "item.infinityminecraft.nether_star_steel_armor": "Nether Star Steel Armor",
+  "item.infinityminecraft.nailong_mask": "Nailong Mask",
+  "item.infinityminecraft.bing_bing_bing": "Bing Bing Bing",
+  "item.infinityminecraft.stone_mask": "Stone Mask",
+  "item.infinityminecraft.nut_wall": "Nut Wall",
+  "item.infinityminecraft.meteor_streak": "Meteor Streak",
+  "item.infinityminecraft.mysterious_coin": "Mysterious Coin",
+  "item.infinityminecraft.jie_toilet_cleaner": "Jie Toilet Cleaner",
+  "item.infinityminecraft.crude_spicy_candy": "Crude Spicy Candy",
+  "item.infinityminecraft.fire_and_steel": "Fire and Steel",
+
+  "jei.infinityminecraft.flawless_star.desc": "Use in Smithing Table with any Smithing Template and any durable item to make it Unbreakable.",
+
+  "infinityminecraft.configuration.title": "infinity minecraft Configs",
+  "infinityminecraft.configuration.section.infinityminecraft.common.toml": "infinity minecraft Configs",
+  "infinityminecraft.configuration.section.infinityminecraft.common.toml.title": "infinity minecraft Configs",
+  "infinityminecraft.configuration.items": "Item List",
+  "infinityminecraft.configuration.logDirtBlock": "Log Dirt Block",
+  "infinityminecraft.configuration.magicNumberIntroduction": "Magic Number Text",
+  "infinityminecraft.configuration.magicNumber": "Magic Number"
+}
