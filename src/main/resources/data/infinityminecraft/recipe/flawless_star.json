@@ -7,8 +7,12 @@
     "DDD"
   ],
   "key": {
-    "D": "minecraft:diamond",
-    "N": "minecraft:nether_star"
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    }
   },
   "result": {
     "id": "infinityminecraft:flawless_star",

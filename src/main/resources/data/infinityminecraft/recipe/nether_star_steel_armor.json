@@ -7,8 +7,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:nether_star",
-    "A": "infinityminecraft:netherite_steel_armor"
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "A": {
+      "item": "infinityminecraft:netherite_steel_armor"
+    }
   },
   "result": {
     "id": "infinityminecraft:nether_star_steel_armor",

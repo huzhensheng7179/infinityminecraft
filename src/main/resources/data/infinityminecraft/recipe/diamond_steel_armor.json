@@ -7,8 +7,12 @@
     "DDD"
   ],
   "key": {
-    "D": "minecraft:diamond",
-    "A": "infinityminecraft:gold_steel_armor"
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "A": {
+      "item": "infinityminecraft:gold_steel_armor"
+    }
   },
   "result": {
     "id": "infinityminecraft:diamond_steel_armor",

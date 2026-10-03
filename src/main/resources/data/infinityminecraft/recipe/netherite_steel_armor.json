@@ -7,8 +7,12 @@
     "NNN"
   ],
   "key": {
-    "N": "minecraft:netherite_ingot",
-    "A": "infinityminecraft:diamond_steel_armor"
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "A": {
+      "item": "infinityminecraft:diamond_steel_armor"
+    }
   },
   "result": {
     "id": "infinityminecraft:netherite_steel_armor",

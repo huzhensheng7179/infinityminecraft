@@ -7,12 +7,24 @@
     "NRN"
   ],
   "key": {
-    "N": "minecraft:netherite_scrap",
-    "B": "minecraft:bow",
-    "C": "minecraft:crossbow",
-    "D": "minecraft:redstone_block",
-    "F": "minecraft:fire_charge",
-    "R": "minecraft:firework_rocket"
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "B": {
+      "item": "minecraft:bow"
+    },
+    "C": {
+      "item": "minecraft:crossbow"
+    },
+    "D": {
+      "item": "minecraft:redstone_block"
+    },
+    "F": {
+      "item": "minecraft:fire_charge"
+    },
+    "R": {
+      "item": "minecraft:firework_rocket"
+    }
   },
   "result": {
     "id": "infinityminecraft:arrow_deflection_ring",

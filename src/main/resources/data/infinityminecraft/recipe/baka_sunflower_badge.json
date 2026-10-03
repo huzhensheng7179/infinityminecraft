@@ -7,8 +7,12 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:sunflower",
-    "N": "minecraft:nether_star"
+    "S": {
+      "item": "minecraft:sunflower"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    }
   },
   "result": {
     "id": "infinityminecraft:baka_sunflower_badge",

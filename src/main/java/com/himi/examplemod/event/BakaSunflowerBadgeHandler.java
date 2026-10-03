@@ -12,7 +12,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 /**
  * baka向日葵吧唧事件处理器。
  * 装备在任意 Curios 饰品栏位时：
- * - 周围光照等级 > 7 时获得生命回复 II
+ * - 周围光照等级 > 7 时获得生命回复 V
  */
 @EventBusSubscriber(modid = infinityminecraft.MODID)
 public class BakaSunflowerBadgeHandler {
@@ -28,8 +28,8 @@ public class BakaSunflowerBadgeHandler {
         int lightLevel = player.level().getMaxLocalRawBrightness(player.blockPosition());
 
         if (lightLevel > 7) {
-            // 施加生命回复 II（持续40ticks=2秒，每tick刷新）
-            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40, 1, false, true));
+            // 施加生命回复 V（持续40ticks=2秒，每tick刷新）
+            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40, 4, false, true));
         }
     }
 

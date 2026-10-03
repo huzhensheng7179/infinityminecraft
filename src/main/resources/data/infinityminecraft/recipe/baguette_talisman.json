@@ -7,9 +7,15 @@
     "BBB"
   ],
   "key": {
-    "C": "minecraft:chain",
-    "O": "minecraft:obsidian",
-    "B": "minecraft:bread"
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "minecraft:bread"
+    }
   },
   "result": {
     "id": "infinityminecraft:baguette_talisman",

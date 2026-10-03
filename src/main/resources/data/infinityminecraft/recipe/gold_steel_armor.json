@@ -7,8 +7,12 @@
     "GGG"
   ],
   "key": {
-    "G": "minecraft:gold_ingot",
-    "A": "infinityminecraft:iron_steel_armor"
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "infinityminecraft:iron_steel_armor"
+    }
   },
   "result": {
     "id": "infinityminecraft:gold_steel_armor",

@@ -84,7 +84,7 @@ public class JieToiletCleanerHandler {
     }
 
     /**
-     * 损失最大生命值的 70%（扁平扣除，无视护甲）；若会致死则以绕过一切的伤害击杀。
+     * 损失最大生命值的 70%（扁平扣除，无视护甲，附带扣血音效与受击动画）；若会致死则以绕过一切的伤害击杀。
      */
     private static void applyHealthPenalty(Player player) {
         float loss = HEALTH_LOSS_RATIO * player.getMaxHealth();
@@ -93,6 +93,8 @@ public class JieToiletCleanerHandler {
             player.hurt(player.damageSources().genericKill(), player.getHealth() + 1.0F);
         } else {
             player.setHealth(remaining);
+            // 扁平扣血不走伤害管线，手动广播受击事件：播放扣血音效 + 红闪/倾斜受击动画
+            ((ServerLevel) player.level()).broadcastDamageEvent(player, player.damageSources().generic());
         }
     }
 
