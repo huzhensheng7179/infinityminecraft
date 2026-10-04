@@ -6,9 +6,12 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.locale.Language;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 /**
  * JEI 插件 - 注册配方催化剂和物品信息
@@ -26,12 +29,18 @@ public class InfinityMinecraftJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        // 注册无暇辰星的 JEI 信息描述
-        registration.addIngredientInfo(
-                new ItemStack(infinityminecraft.FLAWLESS_STAR.get()),
-                VanillaTypes.ITEM_STACK,
-                net.minecraft.network.chat.Component.translatable("jei.infinityminecraft.flawless_star.desc")
-        );
+        // 数据驱动：为本模组所有在 lang 中定义了 jei.<modid>.<path>.desc 的物品注册 JEI 信息页。
+        // 新增物品只需补一条 jei.*.desc 语言键即可自动显示，无需改代码（与 CurioTooltipHandler 的 .desc 机制同理）。
+        Language language = Language.getInstance();
+        for (Item item : BuiltInRegistries.ITEM) {
+            ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
+            if (!infinityminecraft.MODID.equals(id.getNamespace())) continue;
+            String key = "jei." + id.getNamespace() + "." + id.getPath() + ".desc";
+            if (language.has(key)) {
+                registration.addIngredientInfo(
+                        new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable(key));
+            }
+        }
     }
 
     @Override

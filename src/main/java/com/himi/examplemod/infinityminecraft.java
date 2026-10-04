@@ -1,18 +1,27 @@
 package com.himi.examplemod;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.common.collect.ImmutableSet;
+import com.himi.examplemod.archaeology.StoneBallRewardTable;
 import com.himi.examplemod.effect.CantCatchMeEffect;
 import com.himi.examplemod.effect.ChocoStormEffect;
 import com.himi.examplemod.effect.XuebiStormEffect;
 import com.himi.examplemod.item.EternalFlameTier;
+import com.himi.examplemod.item.LostAncientBookItem;
 import com.himi.examplemod.item.MysteriousCoinItem;
+import com.himi.examplemod.item.MysteriousStoneBallItem;
 import com.himi.examplemod.item.WorldSlashItem;
 import com.himi.examplemod.item.XuebiItem;
+import com.himi.examplemod.loot.SetSuperEnchantmentsFunction;
+import com.himi.examplemod.network.ModNetwork;
 import com.himi.examplemod.recipe.UnbreakableSmithingRecipe;
 import com.mojang.logging.LogUtils;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -31,9 +40,12 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.block.Block;
@@ -44,6 +56,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -72,6 +85,8 @@ public class infinityminecraft {
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(Registries.POINT_OF_INTEREST_TYPE, MODID);
     // Create a Deferred Register to hold VillagerProfessions under the "infinityminecraft" namespace
     public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(Registries.VILLAGER_PROFESSION, MODID);
+    // Create a Deferred Register to hold LootItemFunctionTypes under the "infinityminecraft" namespace
+    public static final DeferredRegister<LootItemFunctionType<?>> LOOT_FUNCTIONS = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MODID);
 
     // 考古学者职业的工作站点方块 - 原版陶罐（decorated_pot），认领其全部方块状态作为 POI
     public static final DeferredHolder<PoiType, PoiType> ARCHAEOLOGIST_POI = POI_TYPES.register("archaeologist",
@@ -88,15 +103,35 @@ public class infinityminecraft {
     public static final DeferredItem<Item> ARROW_DEFLECTION_RING = ITEMS.registerSimpleItem("arrow_deflection_ring",
             new Item.Properties().durability(512).rarity(Rarity.UNCOMMON));
 
-    // 无暇辰星 - 在锻造台中为任意带耐久物品附上无法破坏
+    // 无暇辰星 - 在锻造台中配合“无暇辰星升级模板”为任意带耐久物品（含下界合金）附上无法破坏
     public static final DeferredItem<Item> FLAWLESS_STAR = ITEMS.registerSimpleItem("flawless_star",
             new Item.Properties().rarity(Rarity.EPIC));
+
+    // 无暇辰星升级模板 - 专用锻造模板：与无暇辰星一起放入锻造台，可为任意武器/装备/工具附上无法破坏
+    public static final DeferredItem<Item> FLAWLESS_STAR_TEMPLATE = ITEMS.register("flawless_star_upgrade_smithing_template",
+            () -> new SmithingTemplateItem(
+                    Component.translatable("item.infinityminecraft.flawless_star_upgrade_smithing_template.applies_to").withStyle(ChatFormatting.BLUE),
+                    Component.translatable("item.infinityminecraft.flawless_star_upgrade_smithing_template.ingredients").withStyle(ChatFormatting.BLUE),
+                    Component.translatable("upgrade.infinityminecraft.flawless_star").withStyle(ChatFormatting.GRAY),
+                    Component.translatable("item.infinityminecraft.flawless_star_upgrade_smithing_template.base_slot_description"),
+                    Component.translatable("item.infinityminecraft.flawless_star_upgrade_smithing_template.additions_slot_description"),
+                    List.of(
+                            ResourceLocation.withDefaultNamespace("item/empty_armor_slot_helmet"),
+                            ResourceLocation.withDefaultNamespace("item/empty_armor_slot_chestplate"),
+                            ResourceLocation.withDefaultNamespace("item/empty_armor_slot_leggings"),
+                            ResourceLocation.withDefaultNamespace("item/empty_armor_slot_boots"),
+                            ResourceLocation.withDefaultNamespace("item/empty_slot_sword"),
+                            ResourceLocation.withDefaultNamespace("item/empty_slot_pickaxe"),
+                            ResourceLocation.withDefaultNamespace("item/empty_slot_axe"),
+                            ResourceLocation.withDefaultNamespace("item/empty_slot_shovel"),
+                            ResourceLocation.withDefaultNamespace("item/empty_slot_hoe")),
+                    List.of(ResourceLocation.withDefaultNamespace("item/empty_slot_diamond"))));
 
     // 法棍护符 - 装备在饰品栏护符栏位，提供永久饥饿 I，受伤时叠加抗性提升
     public static final DeferredItem<Item> BAGUETTE_TALISMAN = ITEMS.registerSimpleItem("baguette_talisman",
             new Item.Properties().rarity(Rarity.RARE).stacksTo(1));
 
-    // baka向日葵吧嘆 - 可装备在任意饰品栏，光照>7时获得生命回复 II
+    // baka向日葵吧唧 - 可装备在任意饰品栏，光照>7时获得瞬间治疗 II
     public static final DeferredItem<Item> BAKA_SUNFLOWER_BADGE = ITEMS.registerSimpleItem("baka_sunflower_badge",
             new Item.Properties().rarity(Rarity.RARE).stacksTo(1));
 
@@ -139,6 +174,10 @@ public class infinityminecraft {
     public static final DeferredItem<Item> NUT_WALL = ITEMS.registerSimpleItem("nut_wall",
             new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
 
+    // 贝质素 - 腰带槽位，装备后免疫摔落伤害、跳跃高度提升到约2格、可直接跨越1格高方块；装备时按 C 键打开末影箱
+    public static final DeferredItem<Item> BEI_ZHI_SU = ITEMS.registerSimpleItem("bei_zhi_su",
+            new Item.Properties().rarity(Rarity.RARE).stacksTo(1));
+
     // 流星一条 - 项链槽位，弓蓄力可持续积攒伤害（满蓄力后每秒+100%原伤害，上限5000%）
     public static final DeferredItem<Item> METEOR_STREAK = ITEMS.registerSimpleItem("meteor_streak",
             new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
@@ -146,6 +185,11 @@ public class infinityminecraft {
     // 神秘硬币 - 手持右键发射蓝色粒子光线，命中实体/方块产生不破坏方块的爆炸，造成10~100000随机伤害，冷却30分钟
     public static final DeferredItem<Item> MYSTERIOUS_COIN = ITEMS.register("mysterious_coin",
             () -> new MysteriousCoinItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
+
+    // 神秘石球 - 考古获得（注入 minecraft:archaeology/* 战利品表）；手持右键敲开，消耗任意品质镐子 3 点耐久并消耗 1 个石球，
+    // 随机产出考古产物/矿物/经验（常见）或锻造模板/附魔金苹果/本模组物品/其它模组最高稀有度物品（极小概率，见 StoneBallRewardTable）
+    public static final DeferredItem<Item> MYSTERIOUS_STONE_BALL = ITEMS.register("mysterious_stone_ball",
+            () -> new MysteriousStoneBallItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(16)));
 
     // 世界斩 - 手持右键锁定鼠标指向处（≤16格），5秒降下15道斩击（多色粒子+音效，每斩100伤害并定身，半径3格），
     // 结束后清除残存活物并使施法者因咒缚付出生命（逻辑见 event/WorldSlashHandler）
@@ -173,6 +217,15 @@ public class infinityminecraft {
             () -> new SwordItem(EternalFlameTier.INSTANCE, new Item.Properties()
                     .rarity(Rarity.EPIC)
                     .attributes(SwordItem.createAttributes(EternalFlameTier.INSTANCE, 49.0F, -2.3F))));
+
+    // 失落古籍 - 可放入附魔台进行“超限附魔”（附魔等级必定超过原版上限，最多高出 3 级，如锋利 VIII）；
+    // 附魔后像附魔书一样存入 STORED_ENCHANTMENTS，可在铁砧上把超限附魔转移给其它物品（mixin 见 EnchantmentHelperMixin / AnvilMenuLostBookMixin）；
+    // 会以已附魔形态出现在所有原版奖励箱中（战利品注入见 event/LostAncientBookLootHandler）
+    public static final DeferredItem<Item> LOST_ANCIENT_BOOK = ITEMS.register("lost_ancient_book",
+            () -> new LostAncientBookItem(new Item.Properties()
+                    .rarity(Rarity.EPIC)
+                    .stacksTo(1)
+                    .component(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY)));
 
     // 巧乐兹风暴 - 效果：在任意方块上如冰面般滑行；受击时对伤害来源反射冰冻伤害（1级4/2级8/3级16）
     public static final DeferredHolder<MobEffect, MobEffect> CHOCO_STORM =
@@ -214,9 +267,19 @@ public class infinityminecraft {
     public static final ResourceKey<Enchantment> GUILLOTINE =
             ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(MODID, "guillotine"));
 
+    // 考古勘探 - 镐子专属附魔（数据驱动 data/infinityminecraft/enchantment/archaeological_prospecting.json，最高 3 级）：
+    // 用带此附魔的镐子破坏「镐子适应的方块」时，按等级 2%/4%/6% 概率额外掉落神秘石球（逻辑见 event/ProspectingHandler）
+    public static final ResourceKey<Enchantment> ARCHAEOLOGICAL_PROSPECTING =
+            ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(MODID, "archaeological_prospecting"));
+
     // 注册自定义锻造配方序列化器
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> UNBREAKABLE_SMITHING_SERIALIZER =
             RECIPE_SERIALIZERS.register("unbreakable_smithing", UnbreakableSmithingRecipe.Serializer::new);
+
+    // 注册自定义战利品函数类型：为奖励箱中的失落古籍附上超限附魔
+    public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<SetSuperEnchantmentsFunction>> SET_SUPER_ENCHANTMENTS =
+            LOOT_FUNCTIONS.register("set_super_enchantments",
+                    () -> new LootItemFunctionType<>(SetSuperEnchantmentsFunction.CODEC));
 
     // Creates a creative tab with the id "infinityminecraft:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
@@ -226,6 +289,7 @@ public class infinityminecraft {
             .displayItems((parameters, output) -> {
                 output.accept(ARROW_DEFLECTION_RING.get());
                 output.accept(FLAWLESS_STAR.get());
+                output.accept(FLAWLESS_STAR_TEMPLATE.get());
                 output.accept(BAGUETTE_TALISMAN.get());
                 output.accept(BAKA_SUNFLOWER_BADGE.get());
                 output.accept(IRON_STEEL_ARMOR.get());
@@ -238,8 +302,10 @@ public class infinityminecraft {
                 output.accept(STONE_MASK.get());
                 output.accept(SUN_RING.get());
                 output.accept(NUT_WALL.get());
+                output.accept(BEI_ZHI_SU.get());
                 output.accept(METEOR_STREAK.get());
                 output.accept(MYSTERIOUS_COIN.get());
+                output.accept(MYSTERIOUS_STONE_BALL.get());
                 output.accept(WORLD_SLASH.get());
                 output.accept(JIE_TOILET_CLEANER.get());
                 output.accept(CRUDE_SPICY_CANDY.get());
@@ -248,6 +314,7 @@ public class infinityminecraft {
                 output.accept(ETERNAL_IN_FLAMES.get());
                 output.accept(QIAOLEZI.get());
                 output.accept(XUEBI.get());
+                output.accept(LOST_ANCIENT_BOOK.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -270,6 +337,11 @@ public class infinityminecraft {
         POI_TYPES.register(modEventBus);
         // Register the Deferred Register to the mod event bus so villager professions get registered
         VILLAGER_PROFESSIONS.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so loot function types get registered
+        LOOT_FUNCTIONS.register(modEventBus);
+
+        // Register custom network payloads (e.g. open ender chest keybind)
+        modEventBus.addListener(ModNetwork::register);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (infinityminecraft) to respond directly to events.
@@ -278,6 +350,9 @@ public class infinityminecraft {
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+        // 配置重载时刷新神秘石球「其他模组」奖励池缓存，使黑名单改动无需重启即可生效
+        modEventBus.addListener((ModConfigEvent.Reloading event) -> StoneBallRewardTable.invalidateCache());
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

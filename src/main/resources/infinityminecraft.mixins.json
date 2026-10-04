@@ -4,7 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AnvilMenuMixin",
-    "BlockFrictionMixin"
+    "AnvilMenuLostBookMixin",
+    "BlockFrictionMixin",
+    "EnchantmentHelperMixin"
   ],
   "injectors": {
     "defaultRequire": 1
