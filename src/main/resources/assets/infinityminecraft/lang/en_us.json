@@ -28,6 +28,8 @@
   "item.infinityminecraft.jie_toilet_cleaner": "Jie Toilet Cleaner",
   "item.infinityminecraft.crude_spicy_candy": "Crude Spicy Candy",
   "item.infinityminecraft.fire_and_steel": "Fire and Steel",
+  "item.infinityminecraft.defy_death": "Defy Death!",
+  "item.infinityminecraft.defy_death_effect": "Death Return Revive Effect",
   "item.infinityminecraft.tempered_blade": "Tempered Blade",
   "item.infinityminecraft.eternal_in_flames": "Eternal in Flames",
   "item.infinityminecraft.qiaolezi": "Qiaolezi",
@@ -43,6 +45,9 @@
 
   "key.categories.infinityminecraft": "Infinity World",
   "key.infinityminecraft.open_ender_chest": "Open Ender Chest (Bei Zhi Su)",
+  "gui.infinityminecraft.death_return": "Death Return",
+  "message.infinityminecraft.death_recorded": "Recorded coordinates: %s, %s, %s",
+  "tooltip.infinityminecraft.recorded": "Recorded: %s, %s, %s",
 
   "item.infinityminecraft.arrow_deflection_ring.desc": "Arrows, tridents and the like just bounce off you.\nEach hit you block costs 1 durability; when it runs out, the ring is done for.",
   "item.infinityminecraft.baka_sunflower_badge.desc": "Stay in decent light (above 7) and you instantly heal (Instant Health II).\nWorks in any accessory slot.",
@@ -60,6 +65,16 @@
   "item.infinityminecraft.jie_toilet_cleaner.desc": "Tanks the next 3 hits you take (each has to land at least 1 second apart to count).\nAfter all 3 are used, you instantly lose 70% of your max health—yes, it can kill you.\nThen it goes on a 60 second cooldown before you get all 3 back.",
   "item.infinityminecraft.crude_spicy_candy.desc": "Keeps you warm: immune to freezing damage, and you won't get hypothermia from powder snow.",
   "item.infinityminecraft.fire_and_steel.desc": "Immune to fire damage, and any flames on you burn out instantly.\nMelee attacks set the target alight for 4 seconds.\nHitting a target that's already burning ignores armor and deals 5x damage.\nEvery melee hit also adds fixed damage equal to 5% of the target's max health.",
+
+  "item.infinityminecraft.defy_death.desc": "Right-click while held to record your current coordinates.\nOn death, a \"Death Return\" option appears; clicking it revives you at the recorded point (works in Hardcore too, reviving in Survival).\nOne-time use: the accessory is consumed after Death Return; your other curios are not dropped on death.",
+  "item.infinityminecraft.sun_ring.desc": "While equipped, continuously knocks back hostile mobs within 2 blocks, forming a repelling field that keeps enemies at bay.",
+  "item.infinityminecraft.bei_zhi_su.desc": "Immune to fall damage.\nJump about 2 blocks high and step up 1-block-tall blocks directly.\nWhile equipped, press C to open your Ender Chest.",
+  "item.infinityminecraft.mysterious_coin.desc": "Right-click while held to fire a blue beam (100-block range).\nOn impact it detonates a block-safe explosion (5-block radius) dealing 10-100000 random damage to creatures in range.\n30-minute cooldown.",
+  "item.infinityminecraft.world_slash.desc": "Right-click while held to lock onto the pointed spot (up to 16 blocks).\nOver 5 seconds it unleashes 15 slashes; each deals 100 damage (ignoring armor, resistance and invulnerability frames) and immobilizes creatures within 3 blocks.\nWhen it ends, all survivors in range are erased and the caster pays with their life to the curse.",
+  "item.infinityminecraft.tempered_blade.desc": "While in your inventory, using an anvil costs no experience and never becomes \"too expensive\".\nEach item you take out counts +1; after 30 uses it transforms in place into \"Eternal in Flames\".",
+  "item.infinityminecraft.eternal_in_flames.desc": "50 attack damage, 1.7 attack speed, 2700 durability.\nMelee attacks with this sword in the main hand ignore all damage reduction (armor, protection enchantments and resistance are nullified).\nCannot be repaired.",
+  "item.infinityminecraft.qiaolezi.desc": "6 hunger / 8 saturation.\nGrants Qiaolezi Storm III for 30 seconds when eaten.",
+  "item.infinityminecraft.xuebi.desc": "2 hunger / 2 saturation.\nGrants Sprite Storm III for 60 seconds when drunk.",
 
   "jei.infinityminecraft.flawless_star.desc": "Use in Smithing Table with the Flawless Star Upgrade Smithing Template and any durable item (including netherite) to make it Unbreakable.",
   "jei.infinityminecraft.mysterious_stone_ball.desc": "Obtained by brushing suspicious sand/gravel (archaeology), or by mining pickaxe-mineable blocks with a pickaxe enchanted with Archaeological Prospecting. Hold and right-click with a pickaxe (costs 3 durability plus the ball) to crack it open for random rewards: minerals, experience, archaeology products, smithing templates, enchanted golden apples, the Lost Ancient Book, and even items from other mods.",

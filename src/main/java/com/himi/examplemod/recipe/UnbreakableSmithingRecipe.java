@@ -42,6 +42,18 @@ public class UnbreakableSmithingRecipe extends SmithingTransformRecipe {
         return input.addition().is(infinityminecraft.FLAWLESS_STAR.get());
     }
 
+    /**
+     * 覆盖 base 槽合法性判断：原版锻造台的 base 槽只接受"被某个锻造配方认领为 base"的物品
+     * （槽谓词 = 所有 SMITHING 配方 anyMatch(isBaseIngredient)）。下界合金没有任何原版配方以它为 base，
+     * 而本配方 base 为 Ingredient.EMPTY（继承的 isBaseIngredient 恒 false），导致下界合金武器无法放入 base 槽。
+     * 这里声明"任意带耐久且尚未无法破坏的物品"都可作为 base，与 matches() 的 base 条件保持一致，
+     * 使下界合金等物品能通过 base 槽谓词。不影响原版配方，也不触碰掉落/其他模组逻辑。
+     */
+    @Override
+    public boolean isBaseIngredient(ItemStack stack) {
+        return stack.getMaxDamage() > 0 && !stack.has(DataComponents.UNBREAKABLE);
+    }
+
     @Override
     public ItemStack assemble(SmithingRecipeInput input, HolderLookup.Provider registries) {
         ItemStack result = input.base().copy();

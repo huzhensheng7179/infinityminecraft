@@ -1,6 +1,9 @@
 package com.himi.examplemod.network;
 
+import com.himi.examplemod.client.ClientDefyDeathState;
+import com.himi.examplemod.client.DefyDeathClientGui;
 import com.himi.examplemod.event.BeiZhiSuHandler;
+import com.himi.examplemod.event.DefyDeathHandler;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -30,6 +33,40 @@ public class ModNetwork {
                 OpenEnderChestPayload.TYPE,
                 OpenEnderChestPayload.STREAM_CODEC,
                 ModNetwork::handleOpenEnderChest);
+        // 「死亡回归」：客户端死亡界面按钮 → 服务端在记录坐标复活
+        registrar.playToServer(
+                DeathReturnPayload.TYPE,
+                DeathReturnPayload.STREAM_CODEC,
+                ModNetwork::handleDeathReturn);
+        // 「撼动死亡！」记录点同步：服务端 → 客户端
+        registrar.playToClient(
+                DefyDeathSyncPayload.TYPE,
+                DefyDeathSyncPayload.STREAM_CODEC,
+                ModNetwork::handleDefyDeathSync);
+        // 「死亡回归」复活特效：服务端 → 客户端播放不死图腾弹窗（沙漏贴图）
+        registrar.playToClient(
+                ReviveEffectPayload.TYPE,
+                ReviveEffectPayload.STREAM_CODEC,
+                ModNetwork::handleReviveEffect);
+    }
+
+    /** 服务端处理：死亡界面点击「死亡回归」后，登记本次重生回标记点（实际重生由客户端的 PERFORM_RESPAWN 触发）。 */
+    private static void handleDeathReturn(final DeathReturnPayload payload, final IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (context.player() instanceof ServerPlayer player) {
+                DefyDeathHandler.requestDeathReturn(player);
+            }
+        });
+    }
+
+    /** 客户端处理：更新记录点状态，供 tooltip 与死亡界面按钮使用。 */
+    private static void handleDefyDeathSync(final DefyDeathSyncPayload payload, final IPayloadContext context) {
+        context.enqueueWork(() -> ClientDefyDeathState.apply(payload.has(), payload.point()));
+    }
+
+    /** 客户端处理：播放不死图腾弹窗（死亡回归复活特效）。仅客户端执行，故延迟加载客户端类安全。 */
+    private static void handleReviveEffect(final ReviveEffectPayload payload, final IPayloadContext context) {
+        context.enqueueWork(DefyDeathClientGui::playRevivePop);
     }
 
     /** 服务端处理：仅当玩家装备了贝质素时打开末影箱。 */

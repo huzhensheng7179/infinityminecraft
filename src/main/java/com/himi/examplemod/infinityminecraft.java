@@ -9,6 +9,7 @@ import com.himi.examplemod.archaeology.StoneBallRewardTable;
 import com.himi.examplemod.effect.CantCatchMeEffect;
 import com.himi.examplemod.effect.ChocoStormEffect;
 import com.himi.examplemod.effect.XuebiStormEffect;
+import com.himi.examplemod.item.DefyDeathItem;
 import com.himi.examplemod.item.EternalFlameTier;
 import com.himi.examplemod.item.LostAncientBookItem;
 import com.himi.examplemod.item.MysteriousCoinItem;
@@ -208,6 +209,15 @@ public class infinityminecraft {
     public static final DeferredItem<Item> FIRE_AND_STEEL = ITEMS.registerSimpleItem("fire_and_steel",
             new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
 
+    // 撼动死亡！ - 胸饰槽位；手持右键记录当前坐标，死亡时死亡界面出现「死亡回归」可在记录点复活（极限模式亦生效，
+    // 逻辑见 item/DefyDeathItem、event/DefyDeathHandler、client/DefyDeathClientGui）
+    public static final DeferredItem<Item> DEFY_DEATH = ITEMS.register("defy_death",
+            () -> new DefyDeathItem(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1)));
+
+    // 死亡回归复活特效 - 仅作为「不死图腾弹窗」显示的沙漏贴图载体（不进创造标签）；死亡回归复活时播放
+    public static final DeferredItem<Item> DEFY_DEATH_EFFECT = ITEMS.registerSimpleItem("defy_death_effect",
+            new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
+
     // 淬火之刃 - 放在背包时使用铁砧不消耗经验且不会过于昂贵；用铁砧 30 次后就地变形为“在烈焰中永恒”
     public static final DeferredItem<Item> TEMPERED_BLADE = ITEMS.registerSimpleItem("tempered_blade",
             new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
@@ -310,6 +320,7 @@ public class infinityminecraft {
                 output.accept(JIE_TOILET_CLEANER.get());
                 output.accept(CRUDE_SPICY_CANDY.get());
                 output.accept(FIRE_AND_STEEL.get());
+                output.accept(DEFY_DEATH.get());
                 output.accept(TEMPERED_BLADE.get());
                 output.accept(ETERNAL_IN_FLAMES.get());
                 output.accept(QIAOLEZI.get());
