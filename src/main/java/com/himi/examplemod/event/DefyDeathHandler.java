@@ -3,8 +3,10 @@ package com.himi.examplemod.event;
 import com.himi.examplemod.infinityminecraft;
 import com.himi.examplemod.network.DefyDeathSyncPayload;
 
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -158,12 +160,22 @@ public class DefyDeathHandler {
                     sp.teleportTo(sp.serverLevel(), point.getX() + 0.5D, point.getY(), point.getZ() + 0.5D,
                             sp.getYRot(), sp.getXRot());
                     playReviveEffect(sp);
+                    grantDeathReturnAdvancement(sp);
                 }));
                 // 一次性消耗：移除「撼动死亡！」饰品并清除记录点（同步移除，随后的 entityJoinWorld 会把最新饰品状态同步给客户端）
                 consumeDefyDeath(sp);
             }
         }
         syncToClient(sp);
+    }
+
+    /** 授予「死亡回归」成就（该成就为 impossible 触发器，仅在复活时手动授予）。 */
+    private static void grantDeathReturnAdvancement(ServerPlayer player) {
+        AdvancementHolder advancement = player.server.getAdvancements()
+                .get(ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "death_return"));
+        if (advancement != null) {
+            player.getAdvancements().award(advancement, "code");
+        }
     }
 
     /** 登入时同步记录点（重登后 tooltip/按钮仍正确）。 */

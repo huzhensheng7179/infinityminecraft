@@ -1,0 +1,35 @@
+{
+  "parent": "infinityminecraft:root",
+  "display": {
+    "icon": {
+      "id": "infinityminecraft:nether_star_steel_armor"
+    },
+    "title": {
+      "translate": "advancement.infinityminecraft.nether_star_steel_armor.title"
+    },
+    "description": {
+      "translate": "advancement.infinityminecraft.nether_star_steel_armor.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinityminecraft:nether_star_steel_armor"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

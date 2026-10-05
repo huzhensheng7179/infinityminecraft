@@ -1,0 +1,35 @@
+{
+  "parent": "infinityminecraft:root",
+  "display": {
+    "icon": {
+      "id": "infinityminecraft:sun_ring"
+    },
+    "title": {
+      "translate": "advancement.infinityminecraft.sun_ring.title"
+    },
+    "description": {
+      "translate": "advancement.infinityminecraft.sun_ring.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinityminecraft:sun_ring"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

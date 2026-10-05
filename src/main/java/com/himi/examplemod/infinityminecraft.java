@@ -8,12 +8,17 @@ import com.google.common.collect.ImmutableSet;
 import com.himi.examplemod.archaeology.StoneBallRewardTable;
 import com.himi.examplemod.effect.CantCatchMeEffect;
 import com.himi.examplemod.effect.ChocoStormEffect;
+import com.himi.examplemod.effect.SuperBraveEffect;
 import com.himi.examplemod.effect.XuebiStormEffect;
+import com.himi.examplemod.entity.WanderingSnifferMerchant;
+import com.himi.examplemod.item.BeerItem;
 import com.himi.examplemod.item.DefyDeathItem;
 import com.himi.examplemod.item.EternalFlameTier;
+import com.himi.examplemod.item.JinKeLaItem;
 import com.himi.examplemod.item.LostAncientBookItem;
 import com.himi.examplemod.item.MysteriousCoinItem;
 import com.himi.examplemod.item.MysteriousStoneBallItem;
+import com.himi.examplemod.item.SalilangTier;
 import com.himi.examplemod.item.WorldSlashItem;
 import com.himi.examplemod.item.XuebiItem;
 import com.himi.examplemod.loot.SetSuperEnchantmentsFunction;
@@ -29,6 +34,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -59,7 +67,9 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -88,6 +98,8 @@ public class infinityminecraft {
     public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(Registries.VILLAGER_PROFESSION, MODID);
     // Create a Deferred Register to hold LootItemFunctionTypes under the "infinityminecraft" namespace
     public static final DeferredRegister<LootItemFunctionType<?>> LOOT_FUNCTIONS = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MODID);
+    // Create a Deferred Register to hold EntityTypes under the "infinityminecraft" namespace
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
 
     // 考古学者职业的工作站点方块 - 原版陶罐（decorated_pot），认领其全部方块状态作为 POI
     public static final DeferredHolder<PoiType, PoiType> ARCHAEOLOGIST_POI = POI_TYPES.register("archaeologist",
@@ -228,6 +240,12 @@ public class infinityminecraft {
                     .rarity(Rarity.EPIC)
                     .attributes(SwordItem.createAttributes(EternalFlameTier.INSTANCE, 49.0F, -2.3F))));
 
+    // 萨日朗 - 剑：6 点伤害、攻速 2.1、耐久 550；主手近战攻击生命值不高于 50% 的生物时附加凋零 I（5 秒，见 event/SalilangHandler）
+    public static final DeferredItem<SwordItem> SA_RI_LANG = ITEMS.register("sa_ri_lang",
+            () -> new SwordItem(SalilangTier.INSTANCE, new Item.Properties()
+                    .rarity(Rarity.RARE)
+                    .attributes(SwordItem.createAttributes(SalilangTier.INSTANCE, 5.0F, -1.9F))));
+
     // 失落古籍 - 可放入附魔台进行“超限附魔”（附魔等级必定超过原版上限，最多高出 3 级，如锋利 VIII）；
     // 附魔后像附魔书一样存入 STORED_ENCHANTMENTS，可在铁砧上把超限附魔转移给其它物品（mixin 见 EnchantmentHelperMixin / AnvilMenuLostBookMixin）；
     // 会以已附魔形态出现在所有原版奖励箱中（战利品注入见 event/LostAncientBookLootHandler）
@@ -236,6 +254,10 @@ public class infinityminecraft {
                     .rarity(Rarity.EPIC)
                     .stacksTo(1)
                     .component(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY)));
+
+    // 金坷垃 - 功能物品：右键点击农作物催熟 2~4 个生长阶段，可无限使用（不消耗、无耐久，见 item/JinKeLaItem）
+    public static final DeferredItem<Item> JIN_KE_LA = ITEMS.register("jin_ke_la",
+            () -> new JinKeLaItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)));
 
     // 巧乐兹风暴 - 效果：在任意方块上如冰面般滑行；受击时对伤害来源反射冰冻伤害（1级4/2级8/3级16）
     public static final DeferredHolder<MobEffect, MobEffect> CHOCO_STORM =
@@ -257,6 +279,17 @@ public class infinityminecraft {
             () -> new XuebiItem(new Item.Properties().rarity(Rarity.UNCOMMON).food(new FoodProperties.Builder()
                     .nutrition(2).saturationModifier(2.0F)
                     .effect(() -> new MobEffectInstance(XUEBI_STORM, 1200, 2), 1.0F)
+                    .build())));
+
+    // 超勇 - 效果：饮用「令 人 超 勇 的 啤 酒」后获得；下次近战攻击伤害翻倍（翻倍后消耗，一次性，见 event/SuperBraveBeerHandler）
+    public static final DeferredHolder<MobEffect, MobEffect> SUPER_BRAVE =
+            MOB_EFFECTS.register("super_brave", SuperBraveEffect::new);
+
+    // 令 人 超 勇 的 啤 酒 - 饮品：2 饱食度 / 2 饱和度，饮用后获得 60 秒「超勇」（下次近战攻击伤害翻倍）；可随时饮用
+    public static final DeferredItem<Item> SUPER_BRAVE_BEER = ITEMS.register("super_brave_beer",
+            () -> new BeerItem(new Item.Properties().rarity(Rarity.RARE).food(new FoodProperties.Builder()
+                    .nutrition(2).saturationModifier(2.0F).alwaysEdible()
+                    .effect(() -> new MobEffectInstance(SUPER_BRAVE, 1200, 0), 1.0F)
                     .build())));
 
     // 你跑不过我你信不信 - 效果：巧乐兹风暴 + 雪碧风暴同时存在时合成；提速、抬高台阶、周身冰冻光环、每秒自损，冲刺时全部翻倍
@@ -291,6 +324,19 @@ public class infinityminecraft {
             LOOT_FUNCTIONS.register("set_super_enchantments",
                     () -> new LootItemFunctionType<>(SetSuperEnchantmentsFunction.CODEC));
 
+    // 流浪嗅探兽商人 - 头戴帽子的嗅探兽，完整保留原版嗅探兽行为（掘地/嗅探），叠加流浪商人式交易（货币为火把花/瓶子草荚）；
+    // 低概率自然刷新、存在约 2.5 游戏日后消失、不可繁殖（实体见 entity/WanderingSnifferMerchant，交易见 entity/SnifferMerchantTrades，刷新见 event/SnifferMerchantSpawnerHandler）
+    public static final DeferredHolder<EntityType<?>, EntityType<WanderingSnifferMerchant>> WANDERING_SNIFFER_MERCHANT =
+            ENTITY_TYPES.register("wandering_sniffer_merchant",
+                    () -> EntityType.Builder.of(WanderingSnifferMerchant::new, MobCategory.CREATURE)
+                            .sized(1.9F, 2.0F)
+                            .clientTrackingRange(10)
+                            .build("wandering_sniffer_merchant"));
+
+    // 流浪嗅探兽商人刷怪蛋 - 便于测试与获取
+    public static final DeferredItem<Item> WANDERING_SNIFFER_MERCHANT_SPAWN_EGG = ITEMS.register("wandering_sniffer_merchant_spawn_egg",
+            () -> new DeferredSpawnEggItem(WANDERING_SNIFFER_MERCHANT, 0x8B5A2B, 0x6A8D3F, new Item.Properties()));
+
     // Creates a creative tab with the id "infinityminecraft:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.infinityminecraft")) //The language key for the title of your CreativeModeTab
@@ -323,9 +369,13 @@ public class infinityminecraft {
                 output.accept(DEFY_DEATH.get());
                 output.accept(TEMPERED_BLADE.get());
                 output.accept(ETERNAL_IN_FLAMES.get());
+                output.accept(SA_RI_LANG.get());
                 output.accept(QIAOLEZI.get());
                 output.accept(XUEBI.get());
+                output.accept(SUPER_BRAVE_BEER.get());
                 output.accept(LOST_ANCIENT_BOOK.get());
+                output.accept(JIN_KE_LA.get());
+                output.accept(WANDERING_SNIFFER_MERCHANT_SPAWN_EGG.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -350,6 +400,10 @@ public class infinityminecraft {
         VILLAGER_PROFESSIONS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so loot function types get registered
         LOOT_FUNCTIONS.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so entity types get registered
+        ENTITY_TYPES.register(modEventBus);
+        // Register entity attribute suppliers (mob event bus)
+        modEventBus.addListener(this::registerEntityAttributes);
 
         // Register custom network payloads (e.g. open ender chest keybind)
         modEventBus.addListener(ModNetwork::register);
@@ -364,6 +418,11 @@ public class infinityminecraft {
 
         // 配置重载时刷新神秘石球「其他模组」奖励池缓存，使黑名单改动无需重启即可生效
         modEventBus.addListener((ModConfigEvent.Reloading event) -> StoneBallRewardTable.invalidateCache());
+    }
+
+    private void registerEntityAttributes(EntityAttributeCreationEvent event) {
+        // 沿用原版嗅探兽的属性（生命 14 / 移速 0.1）
+        event.put(WANDERING_SNIFFER_MERCHANT.get(), Sniffer.createAttributes().build());
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

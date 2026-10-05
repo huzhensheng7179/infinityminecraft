@@ -1,0 +1,35 @@
+{
+  "parent": "infinityminecraft:root",
+  "display": {
+    "icon": {
+      "id": "infinityminecraft:tempered_blade"
+    },
+    "title": {
+      "translate": "advancement.infinityminecraft.tempered_blade.title"
+    },
+    "description": {
+      "translate": "advancement.infinityminecraft.tempered_blade.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinityminecraft:tempered_blade"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

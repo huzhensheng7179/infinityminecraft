@@ -421,6 +421,15 @@ public final class StoneBallRewardTable {
         return configBlacklist().contains(BuiltInRegistries.ITEM.getKey(item));
     }
 
+    /**
+     * 通用「可获得性」判定：不在内置生存不可获得黑名单、不是刷怪蛋、且未被配置黑名单屏蔽。
+     * 供流浪嗅探兽商人的交易物品池复用，与神秘石球「其他模组扫描」采用同一套过滤标准。
+     */
+    public static boolean isObtainableItem(Item item) {
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
+        return isObtainable(id) && !configBlacklist().contains(id);
+    }
+
     /** 使其他模组物品池与黑名单缓存失效（配置重载时调用），下次开球重新扫描并应用最新黑名单。 */
     public static void invalidateCache() {
         otherModPools = null;
