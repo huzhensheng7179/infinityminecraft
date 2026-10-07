@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
@@ -29,12 +29,12 @@ import java.util.Map;
  *       （尸壳/溺尸的 getSkull() 返回 EMPTY、流浪者不掉头颅，故已排除）。</li>
  * </ul>
  *
- * <p>附魔本体在 1.21 为数据驱动（{@code data/infinityminecraft/enchantment/guillotine.json}，
+ * <p>附魔本体在 1.21 为数据驱动（{@code data/infinitycraft/enchantment/guillotine.json}，
  * 适用于剑与斧 {@code #minecraft:enchantable/sharp_weapon}）；掉率逻辑在结算掉落物的
  * {@link LivingDropsEvent} 中处理：先移除原版可能已掉的同款头颅（如凋灵骷髅），再按附魔概率
  * 掷骰，使头颅掉率严格“变成”附魔规定值。击杀者须为玩家、读取其主手武器上的铡刃等级；仅服务端结算。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class GuillotineHandler {
 
     // 每级头颅掉率增量：1 级 12% / 2 级 24% / 3 级 36% / 4 级 48%
@@ -64,7 +64,7 @@ public class GuillotineHandler {
 
         Holder<Enchantment> guillotine = victim.level().registryAccess()
                 .lookupOrThrow(Registries.ENCHANTMENT)
-                .getOrThrow(infinityminecraft.GUILLOTINE);
+                .getOrThrow(infinitycraft.GUILLOTINE);
         int level = EnchantmentHelper.getEnchantmentLevel(guillotine, killer);
         if (level <= 0) return;
 

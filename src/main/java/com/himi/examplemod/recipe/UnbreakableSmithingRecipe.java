@@ -1,6 +1,6 @@
 package com.himi.examplemod.recipe;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -23,9 +23,9 @@ public class UnbreakableSmithingRecipe extends SmithingTransformRecipe {
 
     public UnbreakableSmithingRecipe() {
         super(
-                Ingredient.of(infinityminecraft.FLAWLESS_STAR_TEMPLATE.get()),
+                Ingredient.of(infinitycraft.FLAWLESS_STAR_TEMPLATE.get()),
                 Ingredient.EMPTY,
-                Ingredient.of(infinityminecraft.FLAWLESS_STAR.get()),
+                Ingredient.of(infinitycraft.FLAWLESS_STAR.get()),
                 ItemStack.EMPTY
         );
     }
@@ -33,13 +33,13 @@ public class UnbreakableSmithingRecipe extends SmithingTransformRecipe {
     @Override
     public boolean matches(SmithingRecipeInput input, Level level) {
         // 模板槽位：必须是无暇辰星升级模板
-        if (!input.template().is(infinityminecraft.FLAWLESS_STAR_TEMPLATE.get())) return false;
+        if (!input.template().is(infinitycraft.FLAWLESS_STAR_TEMPLATE.get())) return false;
         // 基础槽位：必须带有耐久且尚未拥有无法破坏
         ItemStack base = input.base();
         if (base.getMaxDamage() <= 0) return false;
         if (base.has(DataComponents.UNBREAKABLE)) return false;
         // 附加槽位：必须是无暇辰星
-        return input.addition().is(infinityminecraft.FLAWLESS_STAR.get());
+        return input.addition().is(infinitycraft.FLAWLESS_STAR.get());
     }
 
     /**
@@ -79,7 +79,7 @@ public class UnbreakableSmithingRecipe extends SmithingTransformRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return infinityminecraft.UNBREAKABLE_SMITHING_SERIALIZER.get();
+        return infinitycraft.UNBREAKABLE_SMITHING_SERIALIZER.get();
     }
 
     @Override

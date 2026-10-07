@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +18,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
  * - 仅对存在「伤害来源单位」（{@code source.getEntity()} 为 LivingEntity）的伤害反射，
  *   摔落/岩浆等无来源实体的伤害不触发。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class ChocoStormHandler {
 
     @SubscribeEvent
@@ -26,7 +26,7 @@ public class ChocoStormHandler {
         LivingEntity victim = event.getEntity();
         if (victim.level().isClientSide()) return;
 
-        MobEffectInstance storm = victim.getEffect(infinityminecraft.CHOCO_STORM);
+        MobEffectInstance storm = victim.getEffect(infinitycraft.CHOCO_STORM);
         if (storm == null) return;
 
         // 防递归：反射出去的是冰冻伤害，若本次即冰冻伤害则不再反射

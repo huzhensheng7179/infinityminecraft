@@ -1,6 +1,6 @@
 package com.himi.examplemod.network;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public record OpenEnderChestPayload() implements CustomPacketPayload {
 
     public static final Type<OpenEnderChestPayload> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "open_ender_chest"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "open_ender_chest"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenEnderChestPayload> STREAM_CODEC =
             StreamCodec.unit(new OpenEnderChestPayload());

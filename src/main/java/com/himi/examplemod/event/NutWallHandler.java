@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Mob;
@@ -21,7 +21,7 @@ import java.util.List;
  *   每 tick 复查，若目标不是玩家则重新强制设定，因此仇恨不会转移到其他单位
  * - 受到伤害时，获得抗性提升 IV 与缓慢 IV，持续 20 秒
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class NutWallHandler {
 
     private static final double TAUNT_RADIUS = 20.0;   // 吸引仇恨半径（格）
@@ -70,13 +70,13 @@ public class NutWallHandler {
      */
     private static boolean hasNutWall(Player player) {
         // 副手
-        if (player.getOffhandItem().is(infinityminecraft.NUT_WALL.get())) {
+        if (player.getOffhandItem().is(infinitycraft.NUT_WALL.get())) {
             return true;
         }
         // Curios 腰带槽位
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.NUT_WALL.get())))
+                        stack.is(infinitycraft.NUT_WALL.get())))
                 .isPresent();
     }
 }

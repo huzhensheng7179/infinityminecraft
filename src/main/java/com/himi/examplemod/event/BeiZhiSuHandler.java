@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -25,7 +25,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  *
  * <p>跳跃与台阶在客户端与服务端两侧一致生效，避免移动预测回弹。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class BeiZhiSuHandler {
 
     // 起跳竖直速度：原版 0.42（约 1.25 格），0.55 可达约 2 格
@@ -34,7 +34,7 @@ public class BeiZhiSuHandler {
     // 台阶高度属性修饰符：基础 0.6，+0.5 → 1.1，可跨 1 格
     private static final double STEP_HEIGHT_BONUS = 0.5D;
     private static final ResourceLocation STEP_HEIGHT_ID =
-            ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "bei_zhi_su.step_height");
+            ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "bei_zhi_su.step_height");
 
     /** 摔落事件：装备贝质素则免疫摔落伤害。 */
     @SubscribeEvent
@@ -84,7 +84,7 @@ public class BeiZhiSuHandler {
     public static boolean hasBeiZhiSu(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.BEI_ZHI_SU.get())))
+                        stack.is(infinitycraft.BEI_ZHI_SU.get())))
                 .isPresent();
     }
 }

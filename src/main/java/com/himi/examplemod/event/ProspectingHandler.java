@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -27,10 +27,10 @@ import net.neoforged.neoforge.event.level.BlockEvent;
  *       玩家非创造模式；仅服务端结算（客户端 Level 非 ServerLevel，自动跳过）。</li>
  * </ul>
  *
- * <p>附魔本体在 1.21 为数据驱动（{@code data/infinityminecraft/enchantment/archaeological_prospecting.json}，
+ * <p>附魔本体在 1.21 为数据驱动（{@code data/infinitycraft/enchantment/archaeological_prospecting.json}，
  * 适用于镐子 {@code #minecraft:pickaxes}，最高 3 级）。神秘石球在方块中心作为额外掉落物生成。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class ProspectingHandler {
 
     // 每级神秘石球掉率增量：1 级 2% / 2 级 4% / 3 级 6%
@@ -48,7 +48,7 @@ public class ProspectingHandler {
         ItemStack tool = player.getMainHandItem();
         Holder<Enchantment> prospecting = level.registryAccess()
                 .lookupOrThrow(Registries.ENCHANTMENT)
-                .getOrThrow(infinityminecraft.ARCHAEOLOGICAL_PROSPECTING);
+                .getOrThrow(infinitycraft.ARCHAEOLOGICAL_PROSPECTING);
         int lvl = EnchantmentHelper.getItemEnchantmentLevel(prospecting, tool);
         if (lvl <= 0) return;
 
@@ -56,7 +56,7 @@ public class ProspectingHandler {
             BlockPos pos = event.getPos();
             level.addFreshEntity(new ItemEntity(level,
                     pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
-                    new ItemStack(infinityminecraft.MYSTERIOUS_STONE_BALL.get())));
+                    new ItemStack(infinitycraft.MYSTERIOUS_STONE_BALL.get())));
         }
     }
 }

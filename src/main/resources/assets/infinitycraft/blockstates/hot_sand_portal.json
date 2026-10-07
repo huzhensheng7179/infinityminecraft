@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "axis=x": { "model": "infinitycraft:block/hot_sand_portal" },
+    "axis=z": { "model": "infinitycraft:block/hot_sand_portal", "y": 90 }
+  }
+}

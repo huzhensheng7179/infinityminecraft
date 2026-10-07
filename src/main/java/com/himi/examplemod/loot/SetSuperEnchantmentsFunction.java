@@ -2,7 +2,7 @@ package com.himi.examplemod.loot;
 
 import java.util.List;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import com.himi.examplemod.item.LostAncientBookItem;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -31,7 +31,7 @@ public class SetSuperEnchantmentsFunction extends LootItemConditionalFunction {
 
     @Override
     public LootItemFunctionType<? extends LootItemConditionalFunction> getType() {
-        return infinityminecraft.SET_SUPER_ENCHANTMENTS.get();
+        return infinitycraft.SET_SUPER_ENCHANTMENTS.get();
     }
 
     @Override

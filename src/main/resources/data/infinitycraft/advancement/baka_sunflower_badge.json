@@ -1,0 +1,35 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:baka_sunflower_badge"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.baka_sunflower_badge.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.baka_sunflower_badge.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinitycraft:baka_sunflower_badge"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

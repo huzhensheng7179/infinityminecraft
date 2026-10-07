@@ -1,6 +1,6 @@
 package com.himi.examplemod.network;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 public record ReviveEffectPayload() implements CustomPacketPayload {
 
     public static final Type<ReviveEffectPayload> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "revive_effect"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "revive_effect"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ReviveEffectPayload> STREAM_CODEC =
             StreamCodec.unit(new ReviveEffectPayload());

@@ -24,20 +24,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class AnvilMenuLostBookMixin {
 
     @Unique
-    private boolean infinityminecraft$superLimit;
+    private boolean infinitycraft$superLimit;
 
     // 每次计算结果前，检测牺牲物是否为失落古籍
     @Inject(method = "createResult", at = @At("HEAD"))
-    private void infinityminecraft$detectLostBook(CallbackInfo ci) {
+    private void infinitycraft$detectLostBook(CallbackInfo ci) {
         AnvilMenu self = (AnvilMenu) (Object) this;
-        this.infinityminecraft$superLimit = self.getSlot(1).getItem().getItem() instanceof LostAncientBookItem;
+        this.infinitycraft$superLimit = self.getSlot(1).getItem().getItem() instanceof LostAncientBookItem;
     }
 
     // 放宽等级钳制：牺牲物为失落古籍时，上限提升 MAX_OVER_LIMIT 级
     @Redirect(method = "createResult",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/Enchantment;getMaxLevel()I"))
-    private int infinityminecraft$raiseMaxLevel(Enchantment enchantment) {
+    private int infinitycraft$raiseMaxLevel(Enchantment enchantment) {
         int maxLevel = enchantment.getMaxLevel();
-        return this.infinityminecraft$superLimit ? maxLevel + LostAncientBookItem.MAX_OVER_LIMIT : maxLevel;
+        return this.infinitycraft$superLimit ? maxLevel + LostAncientBookItem.MAX_OVER_LIMIT : maxLevel;
     }
 }

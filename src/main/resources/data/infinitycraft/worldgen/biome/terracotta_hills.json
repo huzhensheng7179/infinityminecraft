@@ -1,0 +1,39 @@
+{
+  "temperature": 1.5,
+  "downfall": 0.0,
+  "has_precipitation": false,
+  "effects": {
+    "sky_color": 16098851,
+    "fog_color": 14912316,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "particle": {
+      "options": { "type": "minecraft:white_ash" },
+      "probability": 0.1
+    }
+  },
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [ "minecraft:patch_dead_bush_2" ]
+  ],
+  "spawn_costs": {},
+  "spawners": {
+    "monster": [],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  }
+}

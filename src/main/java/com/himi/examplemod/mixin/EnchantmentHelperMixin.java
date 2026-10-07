@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EnchantmentHelperMixin {
 
     @Inject(method = "getComponentType", at = @At("HEAD"), cancellable = true)
-    private static void infinityminecraft$lostBookUsesStored(ItemStack stack,
+    private static void infinitycraft$lostBookUsesStored(ItemStack stack,
             CallbackInfoReturnable<DataComponentType<ItemEnchantments>> cir) {
         if (stack.getItem() instanceof LostAncientBookItem) {
             cir.setReturnValue(DataComponents.STORED_ENCHANTMENTS);

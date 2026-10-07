@@ -1,0 +1,116 @@
+{
+  "type": "infinitycraft:hot_sand",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "infinitycraft:hot_sand",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "infinitycraft:lava_deep_ocean",
+          "parameters": { "temperature": [ -1.0, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -1.05, -0.6 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:lava_sea",
+          "parameters": { "temperature": [ -1.0, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.6, -0.3 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:lava_shoal",
+          "parameters": { "temperature": [ -1.0, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.3, -0.19 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:obsidian_wasteland",
+          "parameters": { "temperature": [ -1.0, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -1.2, -1.05 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:hot_sand_coast",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.19, -0.11 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:ash_beach",
+          "parameters": { "temperature": [ -1.0, -0.15 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.19, -0.11 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:basalt_delta",
+          "parameters": { "temperature": [ -0.15, 0.2 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.19, -0.11 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:lava_river",
+          "parameters": { "temperature": [ -1.0, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.05, 0.55 ], "erosion": [ 0.05, 1.0 ], "weirdness": [ -0.05, 0.05 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:hot_sand_plains",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ 0.45, 1.0 ], "weirdness": [ 0.05, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:hot_sand_dunes",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ 0.45, 1.0 ], "weirdness": [ -1.0, -0.05 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:ash_plains",
+          "parameters": { "temperature": [ -1.0, 0.2 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ 0.45, 1.0 ], "weirdness": [ 0.05, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:blackstone_wastes",
+          "parameters": { "temperature": [ -1.0, 0.2 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ 0.45, 1.0 ], "weirdness": [ -1.0, -0.05 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:scorched_fields",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ 0.05, 0.45 ], "weirdness": [ 0.05, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:terracotta_hills",
+          "parameters": { "temperature": [ -1.0, 0.2 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ 0.05, 0.45 ], "weirdness": [ -1.0, -0.05 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:eroded_hot_sand",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ -0.375, 0.05 ], "weirdness": [ 0.05, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:hot_sand_highlands",
+          "parameters": { "temperature": [ -1.0, 0.2 ], "humidity": [ -1.0, 0.75 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ -0.375, 0.05 ], "weirdness": [ -1.0, -0.05 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:hot_sand_volcano",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ -1.0, -0.78 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:blackstone_peaks",
+          "parameters": { "temperature": [ -1.0, -0.15 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ -1.0, -0.78 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:basalt_spikes",
+          "parameters": { "temperature": [ -0.15, 0.2 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ -1.0, -0.78 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:lava_plateau",
+          "parameters": { "temperature": [ -1.0, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -0.11, 1.0 ], "erosion": [ -0.78, -0.375 ], "weirdness": [ -1.0, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:oasis",
+          "parameters": { "temperature": [ -1.0, 0.45 ], "humidity": [ 0.75, 1.0 ], "continentalness": [ -0.11, 0.55 ], "erosion": [ 0.05, 1.0 ], "weirdness": [ 0.05, 1.0 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:lush_oasis",
+          "parameters": { "temperature": [ 0.45, 1.0 ], "humidity": [ 0.75, 1.0 ], "continentalness": [ -0.11, 0.55 ], "erosion": [ 0.05, 1.0 ], "weirdness": [ -1.0, -0.05 ], "depth": 0.0, "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:nether_flame_cave",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -1.0, 1.0 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": [ 0.2, 0.55 ], "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:basalt_cave",
+          "parameters": { "temperature": [ -1.0, 0.2 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -1.0, 1.0 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": [ 0.2, 0.55 ], "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:scorched_deepslate_cave",
+          "parameters": { "temperature": [ 0.2, 1.0 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -1.0, 1.0 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": [ 0.55, 1.1 ], "offset": 0.0 }
+        },
+        {
+          "biome": "infinitycraft:deep_amethyst_cave",
+          "parameters": { "temperature": [ -1.0, 0.2 ], "humidity": [ -1.0, 1.0 ], "continentalness": [ -1.0, 1.0 ], "erosion": [ -1.0, 1.0 ], "weirdness": [ -1.0, 1.0 ], "depth": [ 0.55, 1.1 ], "offset": 0.0 }
+        }
+      ]
+    }
+  }
+}

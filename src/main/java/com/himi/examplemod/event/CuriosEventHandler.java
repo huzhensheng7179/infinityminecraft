@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -17,7 +17,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  * 当玩家在 Curios 戒指栏位装备避箭之戒时，免疫所有弹射物伤害，
  * 每次抵挡扣除1点耐久。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class CuriosEventHandler {
 
     @SubscribeEvent
@@ -31,7 +31,7 @@ public class CuriosEventHandler {
 
         // 在 Curios 戒指栏位中查找避箭之戒
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
-            handler.findFirstCurio(stack -> stack.is(infinityminecraft.ARROW_DEFLECTION_RING.get()))
+            handler.findFirstCurio(stack -> stack.is(infinitycraft.ARROW_DEFLECTION_RING.get()))
                     .ifPresent(result -> {
                         ItemStack ring = result.stack();
                         // 取消弹射物伤害

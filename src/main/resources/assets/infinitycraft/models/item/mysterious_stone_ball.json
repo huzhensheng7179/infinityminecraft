@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "infinitycraft:item/mysterious_stone_ball"
+  }
+}

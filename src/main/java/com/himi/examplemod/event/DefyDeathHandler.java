@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import com.himi.examplemod.network.DefyDeathSyncPayload;
 
 import net.minecraft.advancements.AdvancementHolder;
@@ -38,7 +38,7 @@ import com.himi.examplemod.network.ReviveEffectPayload;
  * 键存在即视为已记录。死亡→重生时经 {@link PlayerEvent.Clone} 复制到新玩家；
  * 重生/登入后经同步包告知客户端，用于 tooltip 与死亡界面按钮显示。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class DefyDeathHandler {
 
     /** 玩家持久化数据中记录点的键（long，BlockPos.asLong）。 */
@@ -133,7 +133,7 @@ public class DefyDeathHandler {
             for (ICurioStacksHandler stacksHandler : handler.getCurios().values()) {
                 IDynamicStackHandler stacks = stacksHandler.getStacks();
                 for (int i = 0; i < stacks.getSlots(); i++) {
-                    if (stacks.getStackInSlot(i).is(infinityminecraft.DEFY_DEATH.get())) {
+                    if (stacks.getStackInSlot(i).is(infinitycraft.DEFY_DEATH.get())) {
                         stacks.setStackInSlot(i, ItemStack.EMPTY);
                     }
                 }
@@ -172,7 +172,7 @@ public class DefyDeathHandler {
     /** 授予「死亡回归」成就（该成就为 impossible 触发器，仅在复活时手动授予）。 */
     private static void grantDeathReturnAdvancement(ServerPlayer player) {
         AdvancementHolder advancement = player.server.getAdvancements()
-                .get(ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "death_return"));
+                .get(ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "death_return"));
         if (advancement != null) {
             player.getAdvancements().award(advancement, "code");
         }

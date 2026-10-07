@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -34,12 +34,12 @@ import java.util.Optional;
  * <p>
  * 事件在数据重载（TagsUpdated）时对每个职业触发一次，故此处仅在职业为考古学者时填充交易表。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class ArchaeologistTradesHandler {
 
     @SubscribeEvent
     public static void onVillagerTrades(VillagerTradesEvent event) {
-        if (event.getType() != infinityminecraft.ARCHAEOLOGIST.get()) {
+        if (event.getType() != infinitycraft.ARCHAEOLOGIST.get()) {
             return;
         }
 
@@ -73,21 +73,25 @@ public class ArchaeologistTradesHandler {
 
         // ===== 顶档 · 4 级（大师）：钻石/绿宝石/碎片 → 模组食物·饮品·饰品 =====
         trades.get(4).add(new Builder().cost(Items.EMERALD, 16, 32)
-                .reward(infinityminecraft.QIAOLEZI.get(), 1, 1).uses(4).xp(20).build());
+                .reward(infinitycraft.QIAOLEZI.get(), 1, 1).uses(4).xp(20).build());
         trades.get(4).add(new Builder().cost(Items.EMERALD, 16, 32)
-                .reward(infinityminecraft.XUEBI.get(), 1, 1).uses(4).xp(20).build());
+                .reward(infinitycraft.XUEBI.get(), 1, 1).uses(4).xp(20).build());
         trades.get(4).add(new Builder().costPool(sherds, 8, 16)
-                .reward(infinityminecraft.CRUDE_SPICY_CANDY.get(), 1, 1).uses(4).xp(20).build());
+                .reward(infinitycraft.CRUDE_SPICY_CANDY.get(), 1, 1).uses(4).xp(20).build());
         trades.get(4).add(new Builder().cost(Items.DIAMOND, 16, 24).costPoolB(sherds, 6, 10)
-                .reward(infinityminecraft.NAILONG_MASK.get(), 1, 1).uses(2).xp(30).build());
+                .reward(infinitycraft.NAILONG_MASK.get(), 1, 1).uses(2).xp(30).build());
 
-        // ===== 顶档 · 5 级（宗师）：钻石/绿宝石 + 碎片 → 强力饰品 =====
+        // ===== 顶档 · 5 级（宗师）：钻石/绿宝石 + 碎片 → 强力饰品·武器 =====
         trades.get(5).add(new Builder().cost(Items.DIAMOND, 24, 32).costPoolB(sherds, 8, 12)
-                .reward(infinityminecraft.BING_BING_BING.get(), 1, 1).uses(2).xp(30).build());
+                .reward(infinitycraft.BING_BING_BING.get(), 1, 1).uses(2).xp(30).build());
         trades.get(5).add(new Builder().cost(Items.EMERALD, 48, 64).costPoolB(sherds, 8, 12)
-                .reward(infinityminecraft.MYSTERIOUS_COIN.get(), 1, 1).uses(2).xp(30).build());
+                .reward(infinitycraft.MYSTERIOUS_COIN.get(), 1, 1).uses(2).xp(30).build());
         trades.get(5).add(new Builder().cost(Items.DIAMOND, 24, 32).costPoolB(sherds, 8, 12)
-                .reward(infinityminecraft.NUT_WALL.get(), 1, 1).uses(2).xp(30).build());
+                .reward(infinitycraft.NUT_WALL.get(), 1, 1).uses(2).xp(30).build());
+        trades.get(5).add(new Builder().cost(Items.DIAMOND, 24, 32).costPoolB(sherds, 8, 12)
+                .reward(infinitycraft.COPPER_FORGED_BLADE.get(), 1, 1).uses(2).xp(30).build());
+        trades.get(5).add(new Builder().cost(Items.DIAMOND, 24, 32).costPoolB(sherds, 8, 12)
+                .reward(infinitycraft.BANG_BING.get(), 1, 1).uses(2).xp(30).build());
     }
 
     /** 从物品标签解析出具体物品列表。 */

@@ -1,0 +1,33 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:super_brave_beer"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.super_brave.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.super_brave.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "infinitycraft:super_brave": {}
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

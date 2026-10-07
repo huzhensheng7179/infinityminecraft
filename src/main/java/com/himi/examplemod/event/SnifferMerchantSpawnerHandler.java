@@ -5,7 +5,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.himi.examplemod.entity.WanderingSnifferMerchant;
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +30,7 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
  *
  * <p>全局同时至多存在 1 只（由最近一次刷新实体的 UUID 追踪其存活状态）。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class SnifferMerchantSpawnerHandler {
 
     private SnifferMerchantSpawnerHandler() {
@@ -115,7 +115,7 @@ public class SnifferMerchantSpawnerHandler {
             if (!canSpawnAt(level, pos)) {
                 continue;
             }
-            WanderingSnifferMerchant merchant = infinityminecraft.WANDERING_SNIFFER_MERCHANT.get().create(level);
+            WanderingSnifferMerchant merchant = infinitycraft.WANDERING_SNIFFER_MERCHANT.get().create(level);
             if (merchant == null) {
                 return false;
             }

@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.locale.Language;
@@ -17,12 +17,12 @@ import java.util.List;
 
 /**
  * 在物品提示（tooltip）中为本模组的饰品追加说明文本。
- * 文本存放在语言文件里，键名规则为 item.infinityminecraft.<物品路径>.desc，多行用 \n 分隔。
+ * 文本存放在语言文件里，键名规则为 item.infinitycraft.<物品路径>.desc，多行用 \n 分隔。
  * 约定：开头以中文引号包裹的若干行是「介绍台词」，其后是「效果说明」，
  * 两者用不同颜色区分——台词为暗紫斜体（原版 lore 风格），效果为淡蓝色。
  * 新增饰品只要在 lang 里补一条 .desc 就会自动显示，不用再动代码。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = infinitycraft.MODID, value = Dist.CLIENT)
 public class CurioTooltipHandler {
 
     private static final String QUOTE_OPEN = "\u201C";   // 中文左引号
@@ -32,7 +32,7 @@ public class CurioTooltipHandler {
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        if (!infinityminecraft.MODID.equals(id.getNamespace())) return;
+        if (!infinitycraft.MODID.equals(id.getNamespace())) return;
 
         String key = "item." + id.getNamespace() + "." + id.getPath() + ".desc";
         Language language = Language.getInstance();

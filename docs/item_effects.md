@@ -1,4 +1,4 @@
-# 无限世界（infinityminecraft）物品效果文档
+# 无限世界（infinitycraft）物品效果文档
 
 > 用途：供**统一编辑效果文本**（语言文件里的 `.desc` 键）时对照。
 > 所有效果数值均以源码核实为准（`src/main/java/com/himi/examplemod/` 下各 Handler / Item / Effect 类）。
@@ -11,8 +11,8 @@
 ### 1. 两套文本键，互不相同
 | 键名规则 | 显示位置 | 处理器 | 适用范围 |
 |---|---|---|---|
-| `item.infinityminecraft.<id>.desc` | 游戏内物品 **tooltip**（物品名下方） | `event/CurioTooltipHandler` | 本模组**任何**物品（不限饰品） |
-| `jei.infinityminecraft.<id>.desc` | **JEI** 信息页 | `jei/InfinityMinecraftJeiPlugin` | 需在 JEI 里展示的物品 |
+| `item.infinitycraft.<id>.desc` | 游戏内物品 **tooltip**（物品名下方） | `event/CurioTooltipHandler` | 本模组**任何**物品（不限饰品） |
+| `jei.infinitycraft.<id>.desc` | **JEI** 信息页 | `jei/InfinityMinecraftJeiPlugin` | 需在 JEI 里展示的物品 |
 
 - 一个物品可以只有其一，或两者都有。
 - tooltip 只要该键存在就自动显示，**无需改代码**。
@@ -26,7 +26,7 @@
 > 现有饰品大多采用「一句台词 + 若干行效果」的写法（如避箭之戒、法棍护符、流星一条）。
 
 ### 3. 双语维护
-- `assets/infinityminecraft/lang/zh_cn.json` 与 `en_us.json` **两个文件都要改**，键名一致。
+- `assets/infinitycraft/lang/zh_cn.json` 与 `en_us.json` **两个文件都要改**，键名一致。
 - 改完需重启客户端，或按 `F3 + T` 重载资源包生效。
 
 ### 4. 文本状态图例
@@ -127,7 +127,7 @@
   - 免疫摔落伤害。
   - 跳跃高度提升到约 2 格。
   - 可直接跨越 1 格高的方块（台阶高度 +0.5）。
-  - 装备时按 **C 键**打开末影箱（按键见 `key.infinityminecraft.open_ender_chest`）。
+  - 装备时按 **C 键**打开末影箱（按键见 `key.infinitycraft.open_ender_chest`）。
 
 ### back（背饰）
 - **“杰”厕灵** `jie_toilet_cleaner` · EPIC · ✅
@@ -168,7 +168,7 @@
 - **无暇辰星** `flawless_star` · EPIC · 🟡（仅 JEI）
   - 在锻造台中与「无暇辰星升级模板」+ 任意带耐久物品（含下界合金）一起使用，为物品附上**无法破坏**属性。
 - **无暇辰星升级模板** `flawless_star_upgrade_smithing_template` · 锻造模板
-  - 专用锻造模板（配合无暇辰星使用）。相关文本键：`upgrade.infinityminecraft.flawless_star` 及 `item.…template.applies_to / .ingredients / .base_slot_description / .additions_slot_description`（均已存在）。
+  - 专用锻造模板（配合无暇辰星使用）。相关文本键：`upgrade.infinitycraft.flawless_star` 及 `item.…template.applies_to / .ingredients / .base_slot_description / .additions_slot_description`（均已存在）。
 - **神秘石球** `mysterious_stone_ball` · RARE · 🟡（仅 JEI）
   - 获取：考古刷扫可疑的沙/沙砾，或用带「考古勘探」附魔的镐子挖掘「镐子适应的方块」。
   - 使用：手持右键（消耗任意镐子 3 点耐久 + 1 个石球）敲开，随机产出：矿物、经验、考古产物（常见）；锻造模板、附魔金苹果、失落古籍、乃至其他模组最高稀有度物品（极小概率）。奖励权重见 `archaeology/StoneBallRewardTable`。
@@ -204,7 +204,7 @@
 
 ---
 
-## 六、药水效果（MobEffect，非物品；键为 `effect.infinityminecraft.<id>`）
+## 六、药水效果（MobEffect，非物品；键为 `effect.infinitycraft.<id>`）
 
 > 效果名称文本已存在；如需在物品 tooltip 里描述这些效果，可参考以下事实。
 
@@ -223,7 +223,7 @@
 
 ---
 
-## 七、附魔（键为 `enchantment.infinityminecraft.<id>`）
+## 七、附魔（键为 `enchantment.infinitycraft.<id>`）
 
 - **铡刃** `guillotine` · 剑/斧专属 · 最高 4 级
   - 击杀「可掉落头颅的生物」时，按等级将头颅掉率变为 12% / 24% / 36% / 48%（逻辑见 `event/GuillotineHandler`）。
@@ -234,7 +234,7 @@
 
 ## 八、村民职业
 
-- **考古学家** `archaeologist`（键 `entity.minecraft.villager.infinityminecraft.archaeologist`）
+- **考古学家** `archaeologist`（键 `entity.minecraft.villager.infinitycraft.archaeologist`）
   - 工作站点：原版陶罐（decorated_pot）。
   - 收购考古获得的陶片，出售珍宝与本模组稀有物品（交易见 `event/ArchaeologistTradesHandler`）。
 
@@ -242,7 +242,7 @@
 
 ## 九、编辑指引（速查）
 
-1. 要新增 tooltip：在 `zh_cn.json` 和 `en_us.json` 各加一条 `"item.infinityminecraft.<id>.desc": "…"`。
+1. 要新增 tooltip：在 `zh_cn.json` 和 `en_us.json` 各加一条 `"item.infinitycraft.<id>.desc": "…"`。
 2. 需要「台词（暗紫斜体）+ 效果（淡蓝）」效果时：把台词放在开头并用中文引号 `“ … ”` 包裹（可跨多行），其后写效果行；用 `\n` 分隔所有行。
 3. JSON 里换行写 `\n`，引号需转义 `\"`。
 4. 只有 JEI 文本（🟡）的物品，若也想在游戏内 tooltip 显示，需**另加** `item.…<id>.desc`（`jei.…` 与 `item.…` 是两个独立键）。

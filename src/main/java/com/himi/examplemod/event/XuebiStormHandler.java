@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -30,7 +30,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
  *   <li>反射的是「冰冻」伤害（非 PLAYER_ATTACK），不会再次触发本处理器，无递归风险。</li>
  * </ul>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class XuebiStormHandler {
 
     private static final int SLOWDOWN_DURATION_TICKS = 100;  // 减速持续 5 秒
@@ -43,7 +43,7 @@ public class XuebiStormHandler {
         if (attacker.level().isClientSide()) return;
         if (!event.getSource().is(DamageTypes.PLAYER_ATTACK)) return; // 仅近战攻击
 
-        MobEffectInstance storm = attacker.getEffect(infinityminecraft.XUEBI_STORM);
+        MobEffectInstance storm = attacker.getEffect(infinitycraft.XUEBI_STORM);
         if (storm == null) return;
 
         LivingEntity victim = event.getEntity();

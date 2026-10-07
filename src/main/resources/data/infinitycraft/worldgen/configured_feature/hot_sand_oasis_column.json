@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:block_column",
+  "config": {
+    "direction": "up",
+    "allowed_placement": {
+      "type": "minecraft:matching_blocks",
+      "blocks": "minecraft:air"
+    },
+    "prioritize_tip": true,
+    "layers": [
+      {
+        "height": { "type": "minecraft:uniform", "min_inclusive": 3, "max_inclusive": 5 },
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": { "Name": "minecraft:oak_log", "Properties": { "axis": "y" } }
+        }
+      }
+    ]
+  }
+}

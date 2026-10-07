@@ -1,6 +1,6 @@
 package com.himi.examplemod.client;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import com.himi.examplemod.network.DeathReturnPayload;
 
 import net.minecraft.ChatFormatting;
@@ -25,14 +25,14 @@ import net.neoforged.neoforge.network.PacketDistributor;
  *   <li>物品效果栏（tooltip）在已记录时追加绿色「已记录：x, y, z」行。</li>
  * </ul>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID, value = net.neoforged.api.distmarker.Dist.CLIENT)
+@EventBusSubscriber(modid = infinitycraft.MODID, value = net.neoforged.api.distmarker.Dist.CLIENT)
 public class DefyDeathClientGui {
 
     /** 播放不死图腾弹窗动画，显示「死亡回归复活特效」沙漏贴图（仅客户端）。 */
     public static void playRevivePop() {
         // 原版重生已重建本地玩家（状态正常、可操作），这里只需播放不死图腾弹窗动画
         Minecraft.getInstance().gameRenderer
-                .displayItemActivation(new ItemStack(infinityminecraft.DEFY_DEATH_EFFECT.get()));
+                .displayItemActivation(new ItemStack(infinitycraft.DEFY_DEATH_EFFECT.get()));
     }
 
     /** 死亡界面初始化后追加「死亡回归」按钮（仅当客户端已知有记录点）。 */
@@ -48,7 +48,7 @@ public class DefyDeathClientGui {
         int x = screen.width / 2 - 100;
         int y = screen.height / 4 + 144;
         event.addListener(Button.builder(
-                        Component.translatable("gui.infinityminecraft.death_return"),
+                        Component.translatable("gui.infinitycraft.death_return"),
                         button -> {
                             Minecraft mc = Minecraft.getInstance();
                             // 1) 登记本次重生回标记点（自定义包走 PacketDistributor）
@@ -67,13 +67,13 @@ public class DefyDeathClientGui {
     /** 物品 tooltip：已记录时在物品名下方追加绿色「已记录」行。 */
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
-        if (!event.getItemStack().is(infinityminecraft.DEFY_DEATH.get())) {
+        if (!event.getItemStack().is(infinitycraft.DEFY_DEATH.get())) {
             return;
         }
         if (ClientDefyDeathState.has && ClientDefyDeathState.point != null) {
             BlockPos p = ClientDefyDeathState.point;
             event.getToolTip().add(1, Component.translatable(
-                            "tooltip.infinityminecraft.recorded", p.getX(), p.getY(), p.getZ())
+                            "tooltip.infinitycraft.recorded", p.getX(), p.getY(), p.getZ())
                     .withStyle(ChatFormatting.GREEN));
         }
     }

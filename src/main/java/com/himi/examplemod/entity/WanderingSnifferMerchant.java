@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import javax.annotation.Nullable;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -63,7 +63,7 @@ public class WanderingSnifferMerchant extends Sniffer implements Merchant {
 
     /** 重新生成一组随机交易（流浪商人式：一次性生成、无等级）。 */
     public void randomizeTrades() {
-        this.offers = SnifferMerchantTrades.generate(this.random, this.registryAccess());
+        this.offers = SnifferMerchantTrades.generate(this.random, this.registryAccess(), this.level().getRecipeManager());
     }
 
     @Override
@@ -119,7 +119,7 @@ public class WanderingSnifferMerchant extends Sniffer implements Merchant {
         if (this.tradeCount % TRADES_PER_UNLOCK != 0) {
             return;
         }
-        MerchantOffer extra = SnifferMerchantTrades.generateSingle(this.random, this.registryAccess());
+        MerchantOffer extra = SnifferMerchantTrades.generateSingle(this.random, this.registryAccess(), this.level().getRecipeManager());
         if (extra != null) {
             this.offers.add(extra);
         }
@@ -325,7 +325,7 @@ public class WanderingSnifferMerchant extends Sniffer implements Merchant {
         if (!this.level().isClientSide && this.offers != null && !this.offers.isEmpty()) {
             MerchantOffers.CODEC
                     .encodeStart(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), this.offers)
-                    .resultOrPartial(msg -> infinityminecraft.LOGGER.warn("Failed to save sniffer merchant offers: {}", msg))
+                    .resultOrPartial(msg -> infinitycraft.LOGGER.warn("Failed to save sniffer merchant offers: {}", msg))
                     .ifPresent(encoded -> tag.put("Offers", encoded));
         }
     }
@@ -342,7 +342,7 @@ public class WanderingSnifferMerchant extends Sniffer implements Merchant {
         if (tag.contains("Offers")) {
             MerchantOffers.CODEC
                     .parse(this.registryAccess().createSerializationContext(NbtOps.INSTANCE), tag.get("Offers"))
-                    .resultOrPartial(msg -> infinityminecraft.LOGGER.warn("Failed to load sniffer merchant offers: {}", msg))
+                    .resultOrPartial(msg -> infinitycraft.LOGGER.warn("Failed to load sniffer merchant offers: {}", msg))
                     .ifPresent(loaded -> this.offers = loaded);
         }
         this.setAge(Math.max(0, this.getAge()));

@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,7 +27,7 @@ import java.util.UUID;
  * 为此引入 IMMUNITY_GRACE_TICKS 无敌窗口：每消耗 1 层后的一段窗口内，继续免疫但不消耗层数，
  * 使“一次免疫”对应一次离散受击（至少间隔 1 秒），符合“免疫 3 次伤害”的预期。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class JieToiletCleanerHandler {
 
     private static final int MAX_CHARGES = 3;             // 免疫层数
@@ -117,7 +117,7 @@ public class JieToiletCleanerHandler {
     private static boolean hasJieToiletCleaner(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.JIE_TOILET_CLEANER.get())))
+                        stack.is(infinitycraft.JIE_TOILET_CLEANER.get())))
                 .isPresent();
     }
 }

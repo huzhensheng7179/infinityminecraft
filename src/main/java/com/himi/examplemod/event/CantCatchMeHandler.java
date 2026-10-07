@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -28,7 +28,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
  * <ul>
  *   <li>移动速度 +40%、台阶高度 +0.5（0.6→1.1，可直接跨过 1 格高方块）；</li>
  *   <li>每秒对周身半径 12 格内所有生物（除自己）施加缓慢 III，并造成 6 点「无视护甲/buff抗性/无敌帧」
- *       的冰冻伤害（自定义伤害类型 {@code infinityminecraft:cant_catch_me_freeze}，
+ *       的冰冻伤害（自定义伤害类型 {@code infinitycraft:cant_catch_me_freeze}，
  *       经标签 bypasses_armor / bypasses_resistance / bypasses_cooldown / is_freezing 配置）；</li>
  *   <li>代价：每秒流失 1 点生命（扁平扣血，无视护甲/抗性/吸收，附带扣血音效与受击动画；触及 0 时走 genericKill 正常死亡）；</li>
  *   <li>冲刺时上述全部效果翻倍：速度 +80%、台阶 +1.0、光环伤害 12、缓慢 VI、自损 2。</li>
@@ -38,7 +38,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
  * 以避免每 tick 重复下发同步包；两属性均为 setSyncable，服务端修改会自动同步到客户端。
  * buff 消失时移除修改器。仅在服务端结算，伤害为服务端权威。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class CantCatchMeHandler {
 
     private static final int COMBINED_DURATION_TICKS = 1200;    // 合成后持续 60 秒
@@ -51,9 +51,9 @@ public class CantCatchMeHandler {
     private static final double BASE_SPEED_BONUS = 0.4;         // 移动速度 +40%
 
     private static final ResourceLocation SPEED_MODIFIER_ID =
-            ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "cant_catch_me.speed");
+            ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "cant_catch_me.speed");
     private static final ResourceLocation STEP_MODIFIER_ID =
-            ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "cant_catch_me.step_height");
+            ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "cant_catch_me.step_height");
 
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
@@ -61,15 +61,15 @@ public class CantCatchMeHandler {
         if (player.level().isClientSide()) return; // 仅服务端结算；速度/台阶为可同步属性，会下发到客户端
 
         // 1) 合成触发：同时拥有巧乐兹风暴与雪碧风暴 -> 移除两者，转化为「你跑不过我你信不信」
-        if (player.hasEffect(infinityminecraft.CHOCO_STORM)
-                && player.hasEffect(infinityminecraft.XUEBI_STORM)) {
-            player.removeEffect(infinityminecraft.CHOCO_STORM);
-            player.removeEffect(infinityminecraft.XUEBI_STORM);
-            player.addEffect(new MobEffectInstance(infinityminecraft.CANT_CATCH_ME, COMBINED_DURATION_TICKS, 0));
+        if (player.hasEffect(infinitycraft.CHOCO_STORM)
+                && player.hasEffect(infinitycraft.XUEBI_STORM)) {
+            player.removeEffect(infinitycraft.CHOCO_STORM);
+            player.removeEffect(infinitycraft.XUEBI_STORM);
+            player.addEffect(new MobEffectInstance(infinitycraft.CANT_CATCH_ME, COMBINED_DURATION_TICKS, 0));
         }
 
         // 2) 无本 buff 时清理属性修改器并返回
-        if (!player.hasEffect(infinityminecraft.CANT_CATCH_ME)) {
+        if (!player.hasEffect(infinitycraft.CANT_CATCH_ME)) {
             removeModifier(player, Attributes.MOVEMENT_SPEED, SPEED_MODIFIER_ID);
             removeModifier(player, Attributes.STEP_HEIGHT, STEP_MODIFIER_ID);
             return;
@@ -115,7 +115,7 @@ public class CantCatchMeHandler {
     /** 自定义冰冻伤害源：经标签配置为无视护甲/抗性/无敌帧，且归类为冰冻伤害（冻结视觉/死亡信息）。 */
     private static DamageSource cantCatchMeFreeze(Player player) {
         Holder<DamageType> type = player.damageSources().damageTypes
-                .getHolderOrThrow(infinityminecraft.CANT_CATCH_ME_FREEZE);
+                .getHolderOrThrow(infinitycraft.CANT_CATCH_ME_FREEZE);
         return new DamageSource(type, player);
     }
 

@@ -1,6 +1,6 @@
 package com.himi.examplemod.jei;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 public class InfinityMinecraftJeiPlugin implements IModPlugin {
 
     private static final ResourceLocation UID =
-            ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "jei_plugin");
+            ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "jei_plugin");
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -34,7 +34,7 @@ public class InfinityMinecraftJeiPlugin implements IModPlugin {
         Language language = Language.getInstance();
         for (Item item : BuiltInRegistries.ITEM) {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
-            if (!infinityminecraft.MODID.equals(id.getNamespace())) continue;
+            if (!infinitycraft.MODID.equals(id.getNamespace())) continue;
             String key = "jei." + id.getNamespace() + "." + id.getPath() + ".desc";
             if (language.has(key)) {
                 registration.addIngredientInfo(

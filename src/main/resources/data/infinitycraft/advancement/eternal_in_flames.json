@@ -1,0 +1,35 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:eternal_in_flames"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.eternal_in_flames.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.eternal_in_flames.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinitycraft:eternal_in_flames"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

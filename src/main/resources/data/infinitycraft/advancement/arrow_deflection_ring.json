@@ -1,0 +1,35 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:arrow_deflection_ring"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.arrow_deflection_ring.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.arrow_deflection_ring.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinitycraft:arrow_deflection_ring"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

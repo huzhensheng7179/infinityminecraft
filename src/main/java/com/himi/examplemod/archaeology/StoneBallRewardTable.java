@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.himi.examplemod.Config;
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import com.himi.examplemod.item.LostAncientBookItem;
 
 import net.minecraft.core.Holder;
@@ -19,9 +19,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.block.BarrierBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LightBlock;
 
 /**
  * 神秘石球奖励池：右键开球时按权重随机产出一类奖励。
@@ -32,7 +38,8 @@ import net.minecraft.world.item.Items;
  *
  * <p>其他模组池仅收录命名空间既非 minecraft 也非本模组的物品（原版由矿物/考古/模板等类别覆盖），
  * 并严格过滤生存模式无法获得的技术性/管理员物品（基岩、命令方块、刷怪蛋、屏障、结构方块、
- * 调试棒等，见 {@link #BLACKLIST} 与 spawn_egg 规则），确保不会产出基岩/命令方块之类物品。</p>
+ * 调试棒等，见 {@link #BLACKLIST}、命名空间无关的 {@link #TECHNICAL_PATHS}、spawn_egg 与屏障方块安全网），
+ * 确保不会产出基岩/命令方块/其他模组重注册的屏障之类物品。</p>
  */
 public final class StoneBallRewardTable {
 
@@ -48,29 +55,31 @@ public final class StoneBallRewardTable {
 
     /**
      * 考古产物（模组部分）标签：收录所有「无合成表」的模组物品，刷子交互与神秘石球共用同一份清单。
-     * 数据文件见 {@code data/infinityminecraft/tags/item/archaeology_products.json}，可由数据包扩展。
+     * 数据文件见 {@code data/infinitycraft/tags/item/archaeology_products.json}，可由数据包扩展。
      */
     public static final TagKey<Item> ARCHAEOLOGY_PRODUCTS =
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "archaeology_products"));
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "archaeology_products"));
 
     /**
      * 各考古产物按「强度分档」的出现权重（数值越大越常见）；未列出的物品用 {@link #DEFAULT_PRODUCT_WEIGHT}。
      * 神秘石球（MOD_ITEM 类别）与刷子注入共用此权重，确保强度偏高的物品出现概率更低。
      */
     private static final Map<ResourceLocation, Integer> PRODUCT_WEIGHTS = Map.ofEntries(
-            // 极强（易破坏平衡）：世界斩 / 在烈焰中永恒 / 流星一条 / 神秘硬币 / 火与钢
+            // 极强（易破坏平衡）：世界斩 / 在烈焰中永恒 / 流星一条 / 神秘硬币 / 火与钢 / 棒冰
             Map.entry(modRL("world_slash"), 1),
             Map.entry(modRL("eternal_in_flames"), 1),
             Map.entry(modRL("meteor_streak"), 1),
             Map.entry(modRL("mysterious_coin"), 1),
             Map.entry(modRL("fire_and_steel"), 1),
-            // 强：奶龙面具 / 冰冰冰 / 石鬼面 / 坚果墙 / “杰”厕灵
+            Map.entry(modRL("bang_bing"), 1),
+            // 强：奶龙面具 / 冰冰冰 / 石鬼面 / 坚果墙 / “杰”厕灵 / 铜铸之刃
             //（失落古籍不在此表：改由 LOST_BOOK_CHANCE 专属概率产出已附魔形态）
             Map.entry(modRL("nailong_mask"), 4),
             Map.entry(modRL("bing_bing_bing"), 4),
             Map.entry(modRL("stone_mask"), 4),
             Map.entry(modRL("nut_wall"), 4),
             Map.entry(modRL("jie_toilet_cleaner"), 4),
+            Map.entry(modRL("copper_forged_blade"), 4),
             // 中：太阳之环 / 贝质素 / 淬火之刃
             Map.entry(modRL("sun_ring"), 10),
             Map.entry(modRL("bei_zhi_su"), 10),
@@ -124,6 +133,17 @@ public final class StoneBallRewardTable {
             rl("moving_piston"), rl("piston_head"), rl("attached_melon_stem"), rl("attached_pumpkin_stem"),
             rl("melon_stem"), rl("pumpkin_stem"));
 
+    /**
+     * 技术性/管理员物品的「路径」黑名单（命名空间无关）：无论属于哪个模组，这些路径都是生存不可获得的
+     * 技术性方块/物品，一律排除。用于拦截其他模组重注册的屏障、命令方块、结构方块等（如 {@code <某模组>:barrier}），
+     * 弥补 {@link #BLACKLIST} 仅按 minecraft 命名空间精确匹配、无法拦截其他命名空间物品的漏洞。
+     * （仅收录“任何模组都不可能是正常生存货物”的确定技术性路径；spawner/vault 等可能被模组合法复用，仍只限 minecraft。）
+     */
+    private static final Set<String> TECHNICAL_PATHS = Set.of(
+            "barrier", "light", "structure_void", "structure_block",
+            "command_block", "chain_command_block", "repeating_command_block", "command_block_minecart",
+            "jigsaw", "debug_stick", "end_portal", "nether_portal", "end_portal_frame", "knowledge_book");
+
     /** 带权重的矿物奖励条目。 */
     private record WeightedItem(Item item, int min, int max, int weight) {
     }
@@ -157,6 +177,9 @@ public final class StoneBallRewardTable {
     /** 配置文件黑名单解析缓存（配置重载时随 otherModPools 一起失效）。 */
     private static volatile Set<ResourceLocation> cachedConfigBlacklist;
 
+    /** 「存在合成配方」的物品集合缓存（扫描 RecipeManager 全部配方产出物；配置或数据包重载时失效）。 */
+    private static volatile Set<Item> cachedCraftableItems;
+
     /** OTHER_MOD 类别内部按稀有度分档的权重：普通最常见、稀有次之、史诗极低。 */
     private static final int RARITY_WEIGHT_COMMON = 74;
     private static final int RARITY_WEIGHT_RARE = 22;
@@ -187,7 +210,7 @@ public final class StoneBallRewardTable {
             case TEMPLATE -> {
                 List<Item> templates = new ArrayList<>(tagItems(lookup, ItemTags.TRIM_TEMPLATES));
                 templates.add(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
-                templates.add(infinityminecraft.FLAWLESS_STAR_TEMPLATE.get());
+                templates.add(infinitycraft.FLAWLESS_STAR_TEMPLATE.get());
                 items.add(new ItemStack(pick(templates, random), 1));
             }
             case ENCHANTED_GOLDEN_APPLE ->
@@ -206,7 +229,7 @@ public final class StoneBallRewardTable {
                 }
             }
             case OTHER_MOD -> {
-                Item other = pickOtherModByRarity(otherModPools(), random);
+                Item other = pickOtherModByRarity(otherModPools(level.getRecipeManager(), level.registryAccess()), random);
                 if (other != null) {
                     items.add(new ItemStack(other, 1));
                 } else {
@@ -218,9 +241,9 @@ public final class StoneBallRewardTable {
 
         // 失落古籍：约 6% 概率额外产出一本已附魔（超限）形态的古籍（若未被全局黑名单剔除）
         if (random.nextFloat() < LOST_BOOK_CHANCE
-                && !isBlacklisted(infinityminecraft.LOST_ANCIENT_BOOK.get())) {
+                && !isBlacklisted(infinitycraft.LOST_ANCIENT_BOOK.get())) {
             items.add(LostAncientBookItem.applySuperEnchantments(
-                    new ItemStack(infinityminecraft.LOST_ANCIENT_BOOK.get()),
+                    new ItemStack(infinitycraft.LOST_ANCIENT_BOOK.get()),
                     level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT),
                     random));
         }
@@ -293,10 +316,10 @@ public final class StoneBallRewardTable {
         List<Item> list = new ArrayList<>();
         for (Item item : BuiltInRegistries.ITEM) {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
-            if (!infinityminecraft.MODID.equals(id.getNamespace())) {
+            if (!infinitycraft.MODID.equals(id.getNamespace())) {
                 continue;
             }
-            if (item == infinityminecraft.MYSTERIOUS_STONE_BALL.get()) {
+            if (item == infinitycraft.MYSTERIOUS_STONE_BALL.get()) {
                 continue;
             }
             list.add(item);
@@ -306,15 +329,18 @@ public final class StoneBallRewardTable {
 
     /**
      * 其他模组物品池：仅非 minecraft/非本模组命名空间，剔除管理员与生存不可获得物品，
-     * 按稀有度（普通/稀有/史诗）分档缓存。UNCOMMON 不纳入（用户只要 3 档）。
+     * 并且「必须存在合成配方」（任意 RecipeType 的产出物），按稀有度（普通/稀有/史诗）分档缓存。
+     * UNCOMMON 不纳入（用户只要 3 档）。配方要求用于排除屏障/命令方块等无配方的技术性物品。
      */
-    private static OtherModPools otherModPools() {
+    private static OtherModPools otherModPools(RecipeManager recipeManager, HolderLookup.Provider registries) {
         OtherModPools pools = otherModPools;
         if (pools != null) {
             return pools;
         }
         // 配置文件黑名单（可剔除任意其他模组物品，见 Config.STONE_BALL_BLACKLIST）
         Set<ResourceLocation> configBlacklist = configBlacklist();
+        // 「存在合成配方」的物品集合：其他模组物品只有能被合成/产出才纳入（拦截屏障等无配方技术性物品）
+        Set<Item> craftable = craftableItems(recipeManager, registries);
         List<Item> common = new ArrayList<>();
         List<Item> rare = new ArrayList<>();
         List<Item> epic = new ArrayList<>();
@@ -322,11 +348,15 @@ public final class StoneBallRewardTable {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
             String namespace = id.getNamespace();
             // 仅“其他模组”：原版由矿物/考古/模板等类别覆盖，本模组由 MOD_ITEM 覆盖
-            if ("minecraft".equals(namespace) || infinityminecraft.MODID.equals(namespace)) {
+            if ("minecraft".equals(namespace) || infinitycraft.MODID.equals(namespace)) {
                 continue;
             }
-            // 剔除管理员物品、生存不可获得物品（内置黑名单 + 刷怪蛋）以及配置文件黑名单中的物品
-            if (!isObtainable(id) || configBlacklist.contains(id)) {
+            // 剔除管理员物品、生存不可获得物品（内置黑名单 + 技术性路径 + 刷怪蛋 + 屏障类方块）以及配置文件黑名单中的物品
+            if (!isObtainable(item) || configBlacklist.contains(id)) {
+                continue;
+            }
+            // 其他模组物品必须存在合成配方，否则不纳入（无配方 = 屏障/命令方块等技术性物品或无法正常获得的物品）
+            if (!craftable.contains(item)) {
                 continue;
             }
             ItemStack def = new ItemStack(item);
@@ -382,13 +412,27 @@ public final class StoneBallRewardTable {
         return null;
     }
 
-    /** 生存可获得性判定：不在黑名单内，且不是刷怪蛋等纯技术性物品。 */
-    private static boolean isObtainable(ResourceLocation id) {
+    /**
+     * 生存可获得性判定：不在 minecraft 黑名单、路径不属于命名空间无关的技术性黑名单、不是刷怪蛋，
+     * 也不是任意命名空间的屏障/光源类方块物品（安全网）。
+     */
+    private static boolean isObtainable(Item item) {
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
         if (BLACKLIST.contains(id)) {
             return false;
         }
         String path = id.getPath();
-        return !path.endsWith("_spawn_egg");
+        if (TECHNICAL_PATHS.contains(path) || path.endsWith("_spawn_egg")) {
+            return false;
+        }
+        // 安全网：拦截路径非标准、但本质是屏障/光源的技术性方块物品（跨命名空间）
+        if (item instanceof BlockItem blockItem) {
+            Block block = blockItem.getBlock();
+            if (block instanceof BarrierBlock || block instanceof LightBlock) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** 从配置读取石球黑名单（物品注册 ID 集合），惰性解析并缓存；非法条目或配置未加载时忽略。 */
@@ -427,13 +471,35 @@ public final class StoneBallRewardTable {
      */
     public static boolean isObtainableItem(Item item) {
         ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
-        return isObtainable(id) && !configBlacklist().contains(id);
+        return isObtainable(item) && !configBlacklist().contains(id);
     }
 
-    /** 使其他模组物品池与黑名单缓存失效（配置重载时调用），下次开球重新扫描并应用最新黑名单。 */
+    /**
+     * 「存在合成配方」的物品集合：扫描 {@link RecipeManager} 的全部配方（任意 {@code RecipeType}，含合成台/熔炼/
+     * 高炉/烟熏/营火/切石/锻造等），收集所有配方的产出物。用于限定石球与嗅探兽商人的「其他模组」物品只能是有配方的
+     * 正常货物，从而排除屏障、命令方块等没有任何配方的技术性/管理员物品。惰性构建并缓存，配置或数据包重载时失效。
+     */
+    public static Set<Item> craftableItems(RecipeManager recipeManager, HolderLookup.Provider registries) {
+        Set<Item> cached = cachedCraftableItems;
+        if (cached != null) {
+            return cached;
+        }
+        Set<Item> set = new HashSet<>();
+        for (RecipeHolder<?> holder : recipeManager.getRecipes()) {
+            ItemStack result = holder.value().getResultItem(registries);
+            if (!result.isEmpty()) {
+                set.add(result.getItem());
+            }
+        }
+        cachedCraftableItems = set;
+        return set;
+    }
+
+    /** 使其他模组物品池、黑名单与配方产出物缓存失效（配置或数据包重载时调用），下次开球重新扫描并应用最新数据。 */
     public static void invalidateCache() {
         otherModPools = null;
         cachedConfigBlacklist = null;
+        cachedCraftableItems = null;
     }
 
     private static ResourceLocation rl(String path) {
@@ -441,6 +507,6 @@ public final class StoneBallRewardTable {
     }
 
     private static ResourceLocation modRL(String path) {
-        return ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, path);
     }
 }

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "infinityminecraft:meteor_streak"
+    "infinitycraft:meteor_streak",
+    "infinitycraft:shadow_flow_necklace"
   ]
 }

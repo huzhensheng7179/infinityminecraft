@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -40,7 +40,7 @@ import java.util.UUID;
  *   并记录为「流星箭」，供命中时播放图腾特效；
  * - 蓄力过程中的粒子由 {@link PlayerTickEvent.Post} 依据当前蓄力档位驱动。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class MeteorStreakHandler {
 
     private static final int FULL_CHARGE_TICKS = 20;       // 弓满蓄力所需 ticks（BowItem.MAX_DRAW_DURATION）
@@ -238,7 +238,7 @@ public class MeteorStreakHandler {
     private static boolean hasMeteorStreak(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.METEOR_STREAK.get())))
+                        stack.is(infinitycraft.METEOR_STREAK.get())))
                 .isPresent();
     }
 }

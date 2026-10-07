@@ -1,0 +1,35 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:fire_and_steel"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.fire_and_steel.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.fire_and_steel.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinitycraft:fire_and_steel"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

@@ -3,7 +3,7 @@ package com.himi.examplemod.event;
 import java.util.List;
 
 import com.himi.examplemod.archaeology.StoneBallRewardTable;
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import com.himi.examplemod.loot.SetSuperEnchantmentsFunction;
 
 import net.minecraft.core.Holder;
@@ -32,7 +32,7 @@ import net.neoforged.neoforge.event.LootTableLoadEvent;
  * <p>考古产物与失落古籍均受 {@link StoneBallRewardTable#isBlacklisted} 全局黑名单过滤（配置文件可剔除）；
  * 神秘石球本身作为入口物品不受黑名单影响。因战利品表在加载时构建，刷子黑名单的改动需 /reload 或重启生效。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class ArchaeologyLootHandler {
 
     private static final float DROP_CHANCE = 0.35F;
@@ -47,19 +47,19 @@ public class ArchaeologyLootHandler {
         }
 
         event.getTable().addPool(LootPool.lootPool()
-                .name("infinityminecraft:mysterious_stone_ball")
+                .name("infinitycraft:mysterious_stone_ball")
                 .setRolls(ConstantValue.exactly(1.0F))
                 .when(LootItemRandomChanceCondition.randomChance(DROP_CHANCE))
-                .add(LootItem.lootTableItem(infinityminecraft.MYSTERIOUS_STONE_BALL.get()))
+                .add(LootItem.lootTableItem(infinitycraft.MYSTERIOUS_STONE_BALL.get()))
                 .build());
 
         // 失落古籍：约 6% 概率额外产出一本已附魔（超限）形态的古籍（若未被全局黑名单剔除）
-        if (!StoneBallRewardTable.isBlacklisted(infinityminecraft.LOST_ANCIENT_BOOK.get())) {
+        if (!StoneBallRewardTable.isBlacklisted(infinitycraft.LOST_ANCIENT_BOOK.get())) {
             event.getTable().addPool(LootPool.lootPool()
-                    .name("infinityminecraft:lost_ancient_book")
+                    .name("infinitycraft:lost_ancient_book")
                     .setRolls(ConstantValue.exactly(1.0F))
                     .when(LootItemRandomChanceCondition.randomChance(StoneBallRewardTable.LOST_BOOK_CHANCE))
-                    .add(LootItem.lootTableItem(infinityminecraft.LOST_ANCIENT_BOOK.get())
+                    .add(LootItem.lootTableItem(infinitycraft.LOST_ANCIENT_BOOK.get())
                             .apply(SetSuperEnchantmentsFunction.builder()))
                     .build());
         }
@@ -75,7 +75,7 @@ public class ArchaeologyLootHandler {
                     .toList();
             if (!products.isEmpty()) {
                 LootPool.Builder productPool = LootPool.lootPool()
-                        .name("infinityminecraft:archaeology_products")
+                        .name("infinitycraft:archaeology_products")
                         .setRolls(ConstantValue.exactly(1.0F))
                         .when(LootItemRandomChanceCondition.randomChance(MOD_ITEM_CHANCE));
                 for (Item item : products) {
@@ -87,7 +87,7 @@ public class ArchaeologyLootHandler {
         } else {
             // 兜底：事件未携带注册表时，退回均等权重的标签展开（此路径无法过滤黑名单，极罕见）
             event.getTable().addPool(LootPool.lootPool()
-                    .name("infinityminecraft:archaeology_products")
+                    .name("infinitycraft:archaeology_products")
                     .setRolls(ConstantValue.exactly(1.0F))
                     .when(LootItemRandomChanceCondition.randomChance(MOD_ITEM_CHANCE))
                     .add(TagEntry.expandTag(StoneBallRewardTable.ARCHAEOLOGY_PRODUCTS))

@@ -1,7 +1,7 @@
 package com.himi.examplemod.client.model;
 
 import com.himi.examplemod.entity.WanderingSnifferMerchant;
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -31,7 +31,7 @@ import net.minecraft.resources.ResourceLocation;
 public class SnifferHatModel extends EntityModel<WanderingSnifferMerchant> {
 
     public static final ModelLayerLocation HAT_LAYER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "sniffer_merchant_hat"), "main");
+            ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "sniffer_merchant_hat"), "main");
 
     private final ModelPart root;
     private final ModelPart bone;

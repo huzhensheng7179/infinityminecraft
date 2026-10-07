@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "infinityminecraft:nailong_mask",
-    "infinityminecraft:stone_mask",
-    "infinityminecraft:sun_ring"
+    "infinitycraft:nailong_mask",
+    "infinitycraft:stone_mask",
+    "infinitycraft:sun_ring"
   ]
 }

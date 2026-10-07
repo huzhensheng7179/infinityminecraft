@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +24,7 @@ import net.neoforged.neoforge.event.entity.player.AnvilRepairEvent;
  *
  * 计数以 minecraft:custom_data 组件（键 {@value #KEY_USES}）保存在淬火之刃物品上，随物品一同存储。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class TemperedBladeHandler {
 
     public static final int TRANSFORM_USES = 30;      // 变形所需的铁砧使用次数
@@ -41,14 +41,14 @@ public class TemperedBladeHandler {
         Inventory inv = player.getInventory();
         for (int i = 0; i < inv.getContainerSize(); i++) {
             ItemStack stack = inv.getItem(i);
-            if (!stack.is(infinityminecraft.TEMPERED_BLADE.get())) continue;
+            if (!stack.is(infinitycraft.TEMPERED_BLADE.get())) continue;
 
             CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
             int uses = tag.getInt(KEY_USES) + 1;
 
             if (uses >= TRANSFORM_USES) {
                 // 变形：用“在烈焰中永恒”剑替换淬火之刃
-                inv.setItem(i, new ItemStack(infinityminecraft.ETERNAL_IN_FLAMES.get()));
+                inv.setItem(i, new ItemStack(infinitycraft.ETERNAL_IN_FLAMES.get()));
                 if (player.level() instanceof ServerLevel sl) {
                     sl.playSound(null, player.getX(), player.getY(), player.getZ(),
                             SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -74,7 +74,7 @@ public class TemperedBladeHandler {
         if (player == null) return false;
         Inventory inv = player.getInventory();
         for (int i = 0; i < inv.getContainerSize(); i++) {
-            if (inv.getItem(i).is(infinityminecraft.TEMPERED_BLADE.get())) {
+            if (inv.getItem(i).is(infinitycraft.TEMPERED_BLADE.get())) {
                 return true;
             }
         }

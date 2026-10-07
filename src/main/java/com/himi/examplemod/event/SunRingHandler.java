@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ import java.util.List;
  * 因此该光环表现为"敌人无法贴近"的斥力场，且不会因每 tick 重复施力而无限加速
  * （knockback 内部按 1 - 击退抗性 衰减，速度亦有上限）。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class SunRingHandler {
 
     private static final double RADIUS = 2.0;
@@ -49,7 +49,7 @@ public class SunRingHandler {
     private static boolean hasSunRing(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.SUN_RING.get())))
+                        stack.is(infinitycraft.SUN_RING.get())))
                 .isPresent();
     }
 }

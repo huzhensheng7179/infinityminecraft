@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 public class SnifferHatLayer extends RenderLayer<WanderingSnifferMerchant, SnifferModel<WanderingSnifferMerchant>> {
 
     private static final ResourceLocation HAT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath("infinityminecraft", "textures/entity/wandering_sniffer_merchant/hat.png");
+            ResourceLocation.fromNamespaceAndPath("infinitycraft", "textures/entity/wandering_sniffer_merchant/hat.png");
     /** 白色 tint：不额外上色，直接呈现帽子贴图本身的嗅探兽主体配色。 */
     private static final int HAT_COLOR = 0xFFFFFFFF;
 

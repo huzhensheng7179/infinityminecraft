@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
@@ -26,7 +26,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  * - 下界合金+：永久抗火
  * - 下界之星：免疫魔法伤害
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class SteelArmorHandler {
 
     /**
@@ -38,21 +38,21 @@ public class SteelArmorHandler {
         if (optional.isEmpty()) return 0;
 
         Item item = optional.get().stack().getItem();
-        if (item == infinityminecraft.NETHER_STAR_STEEL_ARMOR.get()) return 5;
-        if (item == infinityminecraft.NETHERITE_STEEL_ARMOR.get()) return 4;
-        if (item == infinityminecraft.DIAMOND_STEEL_ARMOR.get()) return 3;
-        if (item == infinityminecraft.GOLD_STEEL_ARMOR.get()) return 2;
-        if (item == infinityminecraft.IRON_STEEL_ARMOR.get()) return 1;
+        if (item == infinitycraft.NETHER_STAR_STEEL_ARMOR.get()) return 5;
+        if (item == infinitycraft.NETHERITE_STEEL_ARMOR.get()) return 4;
+        if (item == infinitycraft.DIAMOND_STEEL_ARMOR.get()) return 3;
+        if (item == infinitycraft.GOLD_STEEL_ARMOR.get()) return 2;
+        if (item == infinitycraft.IRON_STEEL_ARMOR.get()) return 1;
         return 0;
     }
 
     private static boolean isSteelArmor(ItemStack stack) {
         Item item = stack.getItem();
-        return item == infinityminecraft.IRON_STEEL_ARMOR.get()
-                || item == infinityminecraft.GOLD_STEEL_ARMOR.get()
-                || item == infinityminecraft.DIAMOND_STEEL_ARMOR.get()
-                || item == infinityminecraft.NETHERITE_STEEL_ARMOR.get()
-                || item == infinityminecraft.NETHER_STAR_STEEL_ARMOR.get();
+        return item == infinitycraft.IRON_STEEL_ARMOR.get()
+                || item == infinitycraft.GOLD_STEEL_ARMOR.get()
+                || item == infinitycraft.DIAMOND_STEEL_ARMOR.get()
+                || item == infinitycraft.NETHERITE_STEEL_ARMOR.get()
+                || item == infinitycraft.NETHER_STAR_STEEL_ARMOR.get();
     }
 
     /**

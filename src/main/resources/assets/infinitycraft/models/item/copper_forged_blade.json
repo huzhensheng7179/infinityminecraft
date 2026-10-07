@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "infinitycraft:item/copper_forged_blade"
+  }
+}

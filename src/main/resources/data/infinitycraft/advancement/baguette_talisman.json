@@ -1,0 +1,35 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:baguette_talisman"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.baguette_talisman.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.baguette_talisman.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "infinitycraft:baguette_talisman"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

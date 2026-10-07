@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "C  ",
+    "OOO",
+    "BBB"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "minecraft:bread"
+    }
+  },
+  "result": {
+    "id": "infinitycraft:baguette_talisman",
+    "count": 1
+  }
+}

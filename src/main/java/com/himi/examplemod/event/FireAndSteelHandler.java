@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,7 +29,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  *    此处 {@code setNewDamage} 追加的固定伤害天然绕过护甲与抗性；
  * 3. “已燃烧”判定必须在点燃之前捕获，故点燃放在 Pre 末尾（读取 wasBurning 之后）。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class FireAndSteelHandler {
 
     private static final float FIRE_SECONDS = 4.0F;         // 攻击附加火焰的秒数（≈火焰附加 I）
@@ -101,7 +101,7 @@ public class FireAndSteelHandler {
     private static boolean hasFireAndSteel(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.FIRE_AND_STEEL.get())))
+                        stack.is(infinitycraft.FIRE_AND_STEEL.get())))
                 .isPresent();
     }
 }

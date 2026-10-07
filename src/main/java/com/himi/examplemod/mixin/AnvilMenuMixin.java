@@ -30,26 +30,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AnvilMenuMixin {
 
     @Unique
-    private Player infinityminecraft$player;
+    private Player infinitycraft$player;
 
     @Inject(method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
             at = @At("TAIL"))
-    private void infinityminecraft$capturePlayer(int containerId, Inventory playerInventory,
+    private void infinitycraft$capturePlayer(int containerId, Inventory playerInventory,
                                                  ContainerLevelAccess access, CallbackInfo ci) {
-        this.infinityminecraft$player = playerInventory.player;
+        this.infinitycraft$player = playerInventory.player;
     }
 
     @Unique
-    private boolean infinityminecraft$freeAnvil() {
-        return TemperedBladeHandler.hasTemperedBlade(this.infinityminecraft$player);
+    private boolean infinitycraft$freeAnvil() {
+        return TemperedBladeHandler.hasTemperedBlade(this.infinitycraft$player);
     }
 
     // 绕过“过于昂贵”：createResult 中读取 cost 时，持有淬火之刃且 cost>=40 则返回 39
     @Redirect(method = "createResult",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/DataSlot;get()I"))
-    private int infinityminecraft$bypassTooExpensive(DataSlot slot) {
+    private int infinitycraft$bypassTooExpensive(DataSlot slot) {
         int cost = slot.get();
-        if (cost >= 40 && infinityminecraft$freeAnvil()) {
+        if (cost >= 40 && infinitycraft$freeAnvil()) {
             return 39;
         }
         return cost;
@@ -57,16 +57,16 @@ public abstract class AnvilMenuMixin {
 
     // createResult 末尾把显示花费压到 1（仅在存在有效成品时），避免红色高额数字
     @Inject(method = "createResult", at = @At("TAIL"))
-    private void infinityminecraft$normalizeCost(CallbackInfo ci) {
-        if (((AnvilMenu) (Object) this).getCost() > 0 && infinityminecraft$freeAnvil()) {
+    private void infinitycraft$normalizeCost(CallbackInfo ci) {
+        if (((AnvilMenu) (Object) this).getCost() > 0 && infinitycraft$freeAnvil()) {
             ((AnvilMenu) (Object) this).setMaximumCost(1);
         }
     }
 
     // 允许取出成品：持有淬火之刃且有有效成品时，无视经验等级要求
     @Inject(method = "mayPickup", at = @At("HEAD"), cancellable = true)
-    private void infinityminecraft$mayPickup(Player player, boolean hasStack, CallbackInfoReturnable<Boolean> cir) {
-        if (((AnvilMenu) (Object) this).getCost() > 0 && infinityminecraft$freeAnvil()) {
+    private void infinitycraft$mayPickup(Player player, boolean hasStack, CallbackInfoReturnable<Boolean> cir) {
+        if (((AnvilMenu) (Object) this).getCost() > 0 && infinitycraft$freeAnvil()) {
             cir.setReturnValue(true);
         }
     }
@@ -74,8 +74,8 @@ public abstract class AnvilMenuMixin {
     // 不消耗经验：持有淬火之刃时跳过扣除经验等级
     @Redirect(method = "onTake",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;giveExperienceLevels(I)V"))
-    private void infinityminecraft$noXpCost(Player player, int levels) {
-        if (!infinityminecraft$freeAnvil()) {
+    private void infinitycraft$noXpCost(Player player, int levels) {
+        if (!infinitycraft$freeAnvil()) {
             player.giveExperienceLevels(levels);
         }
     }

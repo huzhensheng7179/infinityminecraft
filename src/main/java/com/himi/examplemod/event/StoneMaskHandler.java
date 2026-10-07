@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +24,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  * - 吃东西（进食）速度提升
  * - 暴露在阳光下时持续扣血
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class StoneMaskHandler {
 
     private static final float DAMAGE_MULTIPLIER = 1.2F;   // 伤害 +20%
@@ -114,7 +114,7 @@ public class StoneMaskHandler {
     private static boolean hasStoneMask(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.STONE_MASK.get())))
+                        stack.is(infinitycraft.STONE_MASK.get())))
                 .isPresent();
     }
 }

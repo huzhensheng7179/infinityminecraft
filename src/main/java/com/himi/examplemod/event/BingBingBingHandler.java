@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -26,7 +26,7 @@ import java.util.UUID;
  * - 6 秒（120 ticks）后复原生物 AI
  * - 内置冷却 25 秒（500 ticks）
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class BingBingBingHandler {
 
     private static final float DAMAGE_THRESHOLD = 2.0F;   // 伤害阈值：大于2点
@@ -116,7 +116,7 @@ public class BingBingBingHandler {
     private static boolean hasBingBingBing(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.BING_BING_BING.get())))
+                        stack.is(infinitycraft.BING_BING_BING.get())))
                 .isPresent();
     }
 }

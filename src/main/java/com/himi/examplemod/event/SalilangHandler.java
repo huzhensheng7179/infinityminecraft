@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,7 +18,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
  * 此时伤害尚未应用，得到的是“被攻击时”的生命值，符合“攻击半血以上生物”的语义。
  * 凋零为持续伤害效果，通过 {@code addEffect} 施加，不受无敌帧影响。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class SalilangHandler {
 
     private static final float HEALTH_THRESHOLD = 0.5F;    // 生命比例阈值（>50%）
@@ -30,7 +30,7 @@ public class SalilangHandler {
         if (!(event.getSource().getEntity() instanceof Player attacker)) return;
         if (attacker.level().isClientSide()) return;
         if (!event.getSource().is(DamageTypes.PLAYER_ATTACK)) return; // 仅近战攻击
-        if (!attacker.getMainHandItem().is(infinityminecraft.SA_RI_LANG.get())) return;
+        if (!attacker.getMainHandItem().is(infinitycraft.SA_RI_LANG.get())) return;
 
         LivingEntity victim = event.getEntity();
         if (victim == attacker) return;

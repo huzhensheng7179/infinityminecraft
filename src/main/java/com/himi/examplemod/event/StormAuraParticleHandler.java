@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +23,7 @@ import org.joml.Vector3f;
  * 其他客户端，只有服务端广播才能让周围所有玩家都看到光环。每 tick 沿玩家身体的旋转圆周
  * 生成粒子（相位随 tickCount 旋转），形成环绕周身的光环。仅在服务端结算。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class StormAuraParticleHandler {
 
     // 白色尘埃粒子（巧乐兹风暴 / 雪碧风暴）
@@ -46,13 +46,13 @@ public class StormAuraParticleHandler {
         if (!(player.level() instanceof ServerLevel level)) return;
 
         // 你跑不过我你信不信：蓝色环绕（由两个风暴合成而来，与风暴互斥，优先显示）
-        if (player.hasEffect(infinityminecraft.CANT_CATCH_ME)) {
+        if (player.hasEffect(infinitycraft.CANT_CATCH_ME)) {
             spawnRing(level, player, BLUE_DUST, BLUE_PER_TICK, BLUE_RADIUS);
             return;
         }
         // 巧乐兹风暴 / 雪碧风暴：白色环绕
-        if (player.hasEffect(infinityminecraft.CHOCO_STORM)
-                || player.hasEffect(infinityminecraft.XUEBI_STORM)) {
+        if (player.hasEffect(infinitycraft.CHOCO_STORM)
+                || player.hasEffect(infinitycraft.XUEBI_STORM)) {
             spawnRing(level, player, WHITE_DUST, WHITE_PER_TICK, WHITE_RADIUS);
         }
     }

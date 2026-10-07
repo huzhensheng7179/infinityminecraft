@@ -1,6 +1,6 @@
 package com.himi.examplemod.mixin;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,9 +30,9 @@ public interface BlockFrictionMixin {
 
     @Inject(method = "getFriction(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F",
             at = @At("HEAD"), cancellable = true)
-    default void infinityminecraft$chocoSlippery(BlockState state, LevelReader level, BlockPos pos, Entity entity,
+    default void infinitycraft$chocoSlippery(BlockState state, LevelReader level, BlockPos pos, Entity entity,
                                                  CallbackInfoReturnable<Float> cir) {
-        if (entity instanceof LivingEntity living && living.hasEffect(infinityminecraft.CHOCO_STORM)) {
+        if (entity instanceof LivingEntity living && living.hasEffect(infinitycraft.CHOCO_STORM)) {
             cir.setReturnValue(0.98F);
         }
     }

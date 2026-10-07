@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "GGG",
+    "GAG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "infinitycraft:iron_steel_armor"
+    }
+  },
+  "result": {
+    "id": "infinitycraft:gold_steel_armor",
+    "count": 1
+  }
+}

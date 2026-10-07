@@ -44,7 +44,7 @@ public class DefyDeathItem extends Item {
 
         // 通知栏（action bar）告知已记录
         player.displayClientMessage(
-                Component.translatable("message.infinityminecraft.death_recorded",
+                Component.translatable("message.infinitycraft.death_recorded",
                         point.getX(), point.getY(), point.getZ()),
                 true);
 

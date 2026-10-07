@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +17,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  * - 受伤时叠加抗性提升（I→II→III），持续25秒
  * - 达到抗性提升 III 时不再触发，等待其消失后重新开始
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class BaguetteTalismanHandler {
 
     private static final int RESISTANCE_DURATION = 500; // 25秒 = 500 ticks
@@ -68,7 +68,7 @@ public class BaguetteTalismanHandler {
     private static boolean hasBaguetteTalisman(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.BAGUETTE_TALISMAN.get())))
+                        stack.is(infinitycraft.BAGUETTE_TALISMAN.get())))
                 .isPresent();
     }
 }

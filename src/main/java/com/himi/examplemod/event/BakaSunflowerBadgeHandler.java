@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +14,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  * 装备在任意 Curios 饰品栏位时：
  * - 周围光照等级 > 7 时获得瞬间治疗 II
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class BakaSunflowerBadgeHandler {
 
     @SubscribeEvent
@@ -39,7 +39,7 @@ public class BakaSunflowerBadgeHandler {
     private static boolean hasBakaSunflowerBadge(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.BAKA_SUNFLOWER_BADGE.get())))
+                        stack.is(infinitycraft.BAKA_SUNFLOWER_BADGE.get())))
                 .isPresent();
     }
 }

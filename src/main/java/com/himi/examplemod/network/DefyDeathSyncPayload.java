@@ -1,6 +1,6 @@
 package com.himi.examplemod.network;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public record DefyDeathSyncPayload(boolean has, BlockPos point) implements CustomPacketPayload {
 
     public static final Type<DefyDeathSyncPayload> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "defy_death_sync"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "defy_death_sync"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, DefyDeathSyncPayload> STREAM_CODEC =
             StreamCodec.of(DefyDeathSyncPayload::write, DefyDeathSyncPayload::read);

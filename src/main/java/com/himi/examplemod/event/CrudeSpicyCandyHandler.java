@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,7 +16,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  * - 免疫体温过低：持续将冰冻计时（ticksFrozen）清零，使玩家永远不会进入/维持冰冻状态，
  *   从而既不会累积冰冻进度，也不会触发原版每 40 ticks 的冰冻伤害。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class CrudeSpicyCandyHandler {
 
     /**
@@ -49,7 +49,7 @@ public class CrudeSpicyCandyHandler {
     private static boolean hasCrudeSpicyCandy(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.CRUDE_SPICY_CANDY.get())))
+                        stack.is(infinitycraft.CRUDE_SPICY_CANDY.get())))
                 .isPresent();
     }
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.himi.examplemod.archaeology.StoneBallRewardTable;
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -22,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
@@ -35,6 +36,7 @@ import net.minecraft.world.item.trading.MerchantOffers;
  * <p>交易物品池：扫描物品注册表，仅收录稀有度为 COMMON/UNCOMMON/RARE（排除 EPIC）且通过
  * {@link StoneBallRewardTable#isObtainableItem} 过滤（剔除管理员/生存不可获得/刷怪蛋/黑名单）的物品；
  * 额外排除「无意义物品」（成书、无附魔的附魔书、已填充地图等，见 {@link #EXCLUDED_MEANINGLESS}）；
+ * 「其他模组」物品还须存在合成配方（{@link StoneBallRewardTable#craftableItems}），排除屏障等无配方技术性物品；
  * 按命名空间分为「原版 / 本模组 / 其他模组」三组，其中其他模组权重较低（约 15%）。</p>
  *
  * <p>货币为火把花（torchflower）与瓶子草荚（pitcher_pod），单笔数量随稀有度升高：
@@ -97,9 +99,9 @@ public final class SnifferMerchantTrades {
     }
 
     /** 生成初始一组随机交易（{@value #INITIAL_TRADES} 条，含至少 {@value #MIN_BARTER} 条以物易物）。 */
-    public static MerchantOffers generate(RandomSource random, RegistryAccess registryAccess) {
+    public static MerchantOffers generate(RandomSource random, RegistryAccess registryAccess, RecipeManager recipeManager) {
         MerchantOffers offers = new MerchantOffers();
-        Pools pools = buildPools(registryAccess);
+        Pools pools = buildPools(registryAccess, recipeManager);
         Set<Item> used = new HashSet<>();
 
         // 预随机选定以物易物的下标，保证至少 MIN_BARTER 条
@@ -127,8 +129,8 @@ public final class SnifferMerchantTrades {
     }
 
     /** 生成单条交易，供实体在玩家完成交易后追加（成长到 {@value #MAX_TRADES} 条）。 */
-    public static MerchantOffer generateSingle(RandomSource random, RegistryAccess registryAccess) {
-        Pools pools = buildPools(registryAccess);
+    public static MerchantOffer generateSingle(RandomSource random, RegistryAccess registryAccess, RecipeManager recipeManager) {
+        Pools pools = buildPools(registryAccess, recipeManager);
         Set<Item> used = new HashSet<>();
         MerchantOffer offer = random.nextInt(100) < BARTER_PERCENT
                 ? makeBarter(pools, random, registryAccess, used)
@@ -140,12 +142,14 @@ public final class SnifferMerchantTrades {
         return offer;
     }
 
-    /** 扫描注册表构建候选池（稀有度 ≤ RARE，剔除黑名单/刷怪蛋/货币本身/无意义物品）。 */
-    private static Pools buildPools(RegistryAccess registryAccess) {
+    /** 扫描注册表构建候选池（稀有度 ≤ RARE，剔除黑名单/刷怪蛋/货币本身/无意义物品；其他模组物品还须存在合成配方）。 */
+    private static Pools buildPools(RegistryAccess registryAccess, RecipeManager recipeManager) {
         List<Item> vanilla = new ArrayList<>();
         List<Item> mod = new ArrayList<>();
         List<Item> other = new ArrayList<>();
         List<Item> rare = new ArrayList<>();
+        // 「存在合成配方」的物品集合：仅用于限定其他模组物品（原版/本模组物品不受此限）
+        Set<Item> craftable = StoneBallRewardTable.craftableItems(recipeManager, registryAccess);
         for (Item item : BuiltInRegistries.ITEM) {
             // 货币本身不作为货物出售
             if (item == Items.TORCHFLOWER || item == Items.PITCHER_POD) {
@@ -168,9 +172,14 @@ public final class SnifferMerchantTrades {
             }
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
             String namespace = id.getNamespace();
+            boolean isOtherMod = !"minecraft".equals(namespace) && !infinitycraft.MODID.equals(namespace);
+            // 其他模组物品必须存在合成配方，否则不售卖（拦截屏障等无配方的技术性物品）
+            if (isOtherMod && !craftable.contains(item)) {
+                continue;
+            }
             if ("minecraft".equals(namespace)) {
                 vanilla.add(item);
-            } else if (infinityminecraft.MODID.equals(namespace)) {
+            } else if (infinitycraft.MODID.equals(namespace)) {
                 mod.add(item);
             } else {
                 other.add(item);

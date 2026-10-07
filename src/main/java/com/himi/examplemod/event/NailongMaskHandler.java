@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +24,7 @@ import top.theillusivec4.curios.api.CuriosApi;
  * 不能用 Entity#pick —— 它在服务端只返回方块命中（BlockHitResult），
  * 永远不会是 EntityHitResult，会导致定身效果根本不触发。
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class NailongMaskHandler {
 
     private static final double REACH_DISTANCE = 32.0;
@@ -56,7 +56,7 @@ public class NailongMaskHandler {
     private static boolean hasNailongMask(Player player) {
         return CuriosApi.getCuriosInventory(player)
                 .flatMap(handler -> handler.findFirstCurio(stack ->
-                        stack.is(infinityminecraft.NAILONG_MASK.get())))
+                        stack.is(infinitycraft.NAILONG_MASK.get())))
                 .isPresent();
     }
 }

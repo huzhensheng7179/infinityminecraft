@@ -1,12 +1,13 @@
 {
   "replace": false,
   "values": [
-    "infinityminecraft:iron_steel_armor",
-    "infinityminecraft:gold_steel_armor",
-    "infinityminecraft:diamond_steel_armor",
-    "infinityminecraft:netherite_steel_armor",
-    "infinityminecraft:nether_star_steel_armor",
-    "infinityminecraft:fire_and_steel",
-    "infinityminecraft:defy_death"
+    "infinitycraft:iron_steel_armor",
+    "infinitycraft:gold_steel_armor",
+    "infinitycraft:diamond_steel_armor",
+    "infinitycraft:netherite_steel_armor",
+    "infinitycraft:nether_star_steel_armor",
+    "infinitycraft:fire_and_steel",
+    "infinitycraft:defy_death",
+    "infinitycraft:bang_bing"
   ]
 }

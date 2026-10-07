@@ -1,6 +1,6 @@
 package com.himi.examplemod.event;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -38,7 +38,7 @@ import java.util.Set;
  *   <li>沿随机方向生成一条彩虹渐变的粒子「切开」轨迹 + 中心多色爆发；</li>
  *   <li>播放挥砍音效（{@code PLAYER_ATTACK_SWEEP}）；</li>
  *   <li>对锁定点半径 {@value #ATTACK_RADIUS} 格内、除施法者外的所有存活实体造成
- *       {@value #SLASH_DAMAGE} 点世界斩伤害（自定义伤害类型 {@code infinityminecraft:world_slash}，
+ *       {@value #SLASH_DAMAGE} 点世界斩伤害（自定义伤害类型 {@code infinitycraft:world_slash}，
  *       经标签 bypasses_armor / bypasses_resistance / bypasses_cooldown 配置为无视护甲/抗性/无敌帧），
  *       并施以定身（缓慢 255 + 对 Mob 额外 {@code setNoAi}）。</li>
  * </ul>
@@ -49,7 +49,7 @@ import java.util.Set;
  *
  * <p>仅在服务端结算（{@link ServerTickEvent.Post} 驱动）；任务列表为静态，单玩家同时至多一次。</p>
  */
-@EventBusSubscriber(modid = infinityminecraft.MODID)
+@EventBusSubscriber(modid = infinitycraft.MODID)
 public class WorldSlashHandler {
 
     private static final int TOTAL_TICKS = 100;         // 5 秒
@@ -213,7 +213,7 @@ public class WorldSlashHandler {
             this.target = target;
             // 世界斩伤害源：以施法者为 causingEntity，死亡播报稳定走 base key，%1$s 即死者名
             Holder<DamageType> type = caster.damageSources().damageTypes
-                    .getHolderOrThrow(infinityminecraft.WORLD_SLASH_DAMAGE);
+                    .getHolderOrThrow(infinitycraft.WORLD_SLASH_DAMAGE);
             this.source = new DamageSource(type, caster);
         }
 

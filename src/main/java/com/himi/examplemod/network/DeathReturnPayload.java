@@ -1,6 +1,6 @@
 package com.himi.examplemod.network;
 
-import com.himi.examplemod.infinityminecraft;
+import com.himi.examplemod.infinitycraft;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public record DeathReturnPayload() implements CustomPacketPayload {
 
     public static final Type<DeathReturnPayload> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath(infinityminecraft.MODID, "death_return"));
+            new Type<>(ResourceLocation.fromNamespaceAndPath(infinitycraft.MODID, "death_return"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, DeathReturnPayload> STREAM_CODEC =
             StreamCodec.unit(new DeathReturnPayload());

@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "infinityminecraft:arrow_deflection_ring",
-    "infinityminecraft:baka_sunflower_badge"
+    "infinitycraft:arrow_deflection_ring",
+    "infinitycraft:baka_sunflower_badge",
+    "infinitycraft:nokia"
   ]
 }

@@ -1,0 +1,33 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:qiaolezi"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.cant_catch_me.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.cant_catch_me.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "infinitycraft:cant_catch_me": {}
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

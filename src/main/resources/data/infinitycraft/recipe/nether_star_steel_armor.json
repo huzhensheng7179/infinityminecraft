@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SSS",
+    "SAS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "A": {
+      "item": "infinitycraft:netherite_steel_armor"
+    }
+  },
+  "result": {
+    "id": "infinitycraft:nether_star_steel_armor",
+    "count": 1
+  }
+}
