@@ -1,0 +1,22 @@
+{
+  "type": "infinitycraft:potion_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "infinitycraft:potions"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:magma_cream"
+    }
+  ],
+  "result": {
+    "id": "infinitycraft:xuebi",
+    "count": 1
+  }
+}

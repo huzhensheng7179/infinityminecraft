@@ -1,7 +1,7 @@
 {
-  "feature": "infinitycraft:hot_sand_budding_amethyst",
+  "feature": "infinitycraft:hot_sand_amethyst_cluster_ceiling",
   "placement": [
-    { "type": "minecraft:count", "count": 26 },
+    { "type": "minecraft:count", "count": 24 },
     { "type": "minecraft:in_square" },
     { "type": "minecraft:height_range", "height": { "type": "minecraft:uniform", "min_inclusive": { "above_bottom": 6 }, "max_inclusive": { "absolute": 48 } } },
     { "type": "minecraft:biome" }

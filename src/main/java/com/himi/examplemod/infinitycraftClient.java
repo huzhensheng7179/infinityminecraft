@@ -13,7 +13,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -45,13 +44,6 @@ public class infinitycraftClient {
     /** 注册帽子模型层定义（嗅探兽本体模型 ModelLayers.SNIFFER 由原版提供，无需重复注册）。 */
     static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(SnifferHatModel.HAT_LAYER, SnifferHatModel::createBodyLayer);
-    }
-
-    @SubscribeEvent
-    static void onClientSetup(FMLClientSetupEvent event) {
-        // Some client setup code
-        infinitycraft.LOGGER.info("HELLO FROM CLIENT SETUP");
-        infinitycraft.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
     }
 
     /**

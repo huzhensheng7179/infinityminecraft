@@ -19,6 +19,7 @@ import com.himi.examplemod.item.CopperForgedBladeItem;
 import com.himi.examplemod.item.CopperForgedBladeTier;
 import com.himi.examplemod.item.DefyDeathItem;
 import com.himi.examplemod.item.EternalFlameTier;
+import com.himi.examplemod.item.GuguXuebiItem;
 import com.himi.examplemod.item.JinKeLaItem;
 import com.himi.examplemod.item.LostAncientBookItem;
 import com.himi.examplemod.item.MysteriousCoinItem;
@@ -28,12 +29,13 @@ import com.himi.examplemod.item.WorldSlashItem;
 import com.himi.examplemod.item.XuebiItem;
 import com.himi.examplemod.loot.SetSuperEnchantmentsFunction;
 import com.himi.examplemod.network.ModNetwork;
+import com.himi.examplemod.recipe.PotionInheritingShapelessRecipe;
 import com.himi.examplemod.recipe.UnbreakableSmithingRecipe;
+import com.himi.examplemod.worldgen.SealedLakeFeature;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -64,6 +66,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -76,12 +79,10 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -112,6 +113,8 @@ public class infinitycraft {
     public static final DeferredRegister<LootItemFunctionType<?>> LOOT_FUNCTIONS = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MODID);
     // Create a Deferred Register to hold EntityTypes under the "infinitycraft" namespace
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
+    // Create a Deferred Register to hold Features under the "infinitycraft" namespace
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, MODID);
 
     // 考古学者职业的工作站点方块 - 原版陶罐（decorated_pot），认领其全部方块状态作为 POI
     public static final DeferredHolder<PoiType, PoiType> ARCHAEOLOGIST_POI = POI_TYPES.register("archaeologist",
@@ -144,6 +147,9 @@ public class infinitycraft {
     // 热砂世界传送门 POI：供 HotSandPortalForcer 在目标维度查找已存在的返程门（双向链接）
     public static final DeferredHolder<PoiType, PoiType> HOT_SAND_PORTAL_POI = POI_TYPES.register("hot_sand_portal",
             () -> new PoiType(ImmutableSet.copyOf(HOT_SAND_PORTAL.get().getStateDefinition().getPossibleStates()), 1, 1));
+
+    // 地下密封水湖 feature：原版 minecraft:lake 的克隆，仅删掉会越界崩溃的湖面结冰 getBiome 检查（见 worldgen/SealedLakeFeature）
+    public static final DeferredHolder<Feature<?>, SealedLakeFeature> SEALED_LAKE = FEATURES.register("sealed_lake", SealedLakeFeature::new);
 
     // 避箭之戒 - 装备在饰品栏戒指栏位，免疫弹射物伤害
     public static final DeferredItem<Item> ARROW_DEFLECTION_RING = ITEMS.registerSimpleItem("arrow_deflection_ring",
@@ -340,11 +346,20 @@ public class infinitycraft {
             MOB_EFFECTS.register("xuebi_storm", XuebiStormEffect::new);
 
     // 雪碧 - 饮品：2 饱食度 / 2 饱和度，饮用后获得 60 秒雪碧风暴 III
+    // 由「药水 + 糖 ×2 + 岩浆膏」无序合成而来时（配方见 data/infinitycraft/recipe/xuebi.json，
+    // 序列化器见 recipe/PotionInheritingShapelessRecipe）会把那份药水的效果一并带上，饮用时叠加生效
     public static final DeferredItem<Item> XUEBI = ITEMS.register("xuebi",
             () -> new XuebiItem(new Item.Properties().rarity(Rarity.UNCOMMON).food(new FoodProperties.Builder()
                     .nutrition(2).saturationModifier(2.0F)
                     .effect(() -> new MobEffectInstance(XUEBI_STORM, 1200, 2), 1.0F)
                     .build())));
+
+    // 鼓鼓的雪碧 - 烟花：自带烟花数据组件，右键（对空 / 对方块）即发射，鞘翅滑行时右键可当火箭加速；
+    // 飞行时渲的就是物品自身的贴图（原版烟花实体渲染拿的是 ItemStack 的模型），与手持贴图一致
+    // （物品见 item/GuguXuebiItem）
+    public static final DeferredItem<Item> GUGU_XUEBI = ITEMS.register("gugu_xuebi",
+            () -> new GuguXuebiItem(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .component(DataComponents.FIREWORKS, GuguXuebiItem.FIREWORKS)));
 
     // 超勇 - 效果：饮用「令 人 超 勇 的 啤 酒」后获得；下次近战攻击伤害翻倍（翻倍后消耗，一次性，见 event/SuperBraveBeerHandler）
     public static final DeferredHolder<MobEffect, MobEffect> SUPER_BRAVE =
@@ -384,6 +399,10 @@ public class infinitycraft {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> UNBREAKABLE_SMITHING_SERIALIZER =
             RECIPE_SERIALIZERS.register("unbreakable_smithing", UnbreakableSmithingRecipe.Serializer::new);
 
+    // 注册「继承药水效果的无序合成」序列化器：配方类型仍是原版工作台，只是合成结果会搬用药水的 potion_contents
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> POTION_SHAPELESS_SERIALIZER =
+            RECIPE_SERIALIZERS.register("potion_shapeless", PotionInheritingShapelessRecipe.Serializer::new);
+
     // 注册自定义战利品函数类型：为奖励箱中的失落古籍附上超限附魔
     public static final DeferredHolder<LootItemFunctionType<?>, LootItemFunctionType<SetSuperEnchantmentsFunction>> SET_SUPER_ENCHANTMENTS =
             LOOT_FUNCTIONS.register("set_super_enchantments",
@@ -412,9 +431,9 @@ public class infinitycraft {
                             .clientTrackingRange(10)
                             .build("shadow_clone"));
 
-    // Creates a creative tab with the id "infinitycraft:example_tab" for the example item, that is placed after the combat tab
+    // 创造模式标签页：展示本模组全部自定义物品
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.infinitycraft")) //The language key for the title of your CreativeModeTab
+            .title(Component.translatable("itemGroup.infinitycraft"))
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> BAKA_SUNFLOWER_BADGE.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
@@ -453,6 +472,7 @@ public class infinitycraft {
                 output.accept(BANG_BING.get());
                 output.accept(QIAOLEZI.get());
                 output.accept(XUEBI.get());
+                output.accept(GUGU_XUEBI.get());
                 output.accept(SUPER_BRAVE_BEER.get());
                 output.accept(LOST_ANCIENT_BOOK.get());
                 output.accept(JIN_KE_LA.get());
@@ -462,9 +482,6 @@ public class infinitycraft {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public infinitycraft(IEventBus modEventBus, ModContainer modContainer) {
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
@@ -483,15 +500,15 @@ public class infinitycraft {
         LOOT_FUNCTIONS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so entity types get registered
         ENTITY_TYPES.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so features get registered
+        FEATURES.register(modEventBus);
         // Register entity attribute suppliers (mob event bus)
         modEventBus.addListener(this::registerEntityAttributes);
 
         // Register custom network payloads (e.g. open ender chest keybind)
         modEventBus.addListener(ModNetwork::register);
 
-        // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (infinitycraft) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
+        // 注册到 Forge 事件总线：本类的 @SubscribeEvent 方法（onDatapackSync）需要游戏事件回调
         NeoForge.EVENT_BUS.register(this);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
@@ -506,26 +523,6 @@ public class infinitycraft {
         event.put(WANDERING_SNIFFER_MERCHANT.get(), Sniffer.createAttributes().build());
         // 影流分身：无 AI 的静止替身（移速 0、抗击退满、被攻击即消失）
         event.put(SHADOW_CLONE.get(), ShadowClone.createAttributes().build());
-    }
-
-    private void commonSetup(FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-
-        if (Config.LOG_DIRT_BLOCK.getAsBoolean()) {
-            LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-        }
-
-        LOGGER.info("{}{}", Config.MAGIC_NUMBER_INTRODUCTION.get(), Config.MAGIC_NUMBER.getAsInt());
-
-        Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
     }
 
     // 数据包同步（服务器启动 / /reload 全局重载）后刷新石球缓存：配方变动会改变「存在合成配方」的其他模组物品集合

@@ -41,6 +41,18 @@ repositories {
         name = "Curios"
         url = uri("https://maven.theillusivec4.top/")
     }
+    // Modrinth Maven —— 仅用于测试端拉取 Jade / Xaero's 小地图 / Xaero's 世界地图
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 base {
@@ -137,6 +149,14 @@ dependencies {
     // Curios API - compile against the API, use full jar at runtime
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    // ===== 测试端专用客户端模组（仅运行时加载，不编译依赖、不随本模组发布）=====
+    // Jade：方块/实体信息显示（WAILA 类）
+    localRuntime "maven.modrinth:jade:${jade_version}"
+    // Xaero's Minimap：小地图
+    localRuntime "maven.modrinth:xaeros-minimap:${xaeros_minimap_version}"
+    // Xaero's World Map：世界地图
+    localRuntime "maven.modrinth:xaeros-world-map:${xaeros_world_map_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

@@ -46,7 +46,7 @@ authors="HI_MI_"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Example mod description.
+无限世界（infinitycraft）- 自定义物品 / Curios 饰品 / 热砂世界维度 / 考古系统的综合模组
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.

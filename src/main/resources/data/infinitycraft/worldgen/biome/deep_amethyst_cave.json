@@ -15,13 +15,13 @@
   "carvers": {},
   "features": [
     [],
-    [],
+    [ "infinitycraft:hot_sand_underground_lava_lake", "infinitycraft:hot_sand_underground_water_lake" ],
     [ "minecraft:amethyst_geode" ],
     [],
     [],
     [],
     [],
-    [ "infinitycraft:hot_sand_budding_amethyst", "infinitycraft:hot_sand_crystal_cluster" ],
+    [ "infinitycraft:hot_sand_budding_amethyst", "infinitycraft:hot_sand_crystal_cluster", "infinitycraft:hot_sand_amethyst_cluster_ceiling" ],
     [],
     []
   ],

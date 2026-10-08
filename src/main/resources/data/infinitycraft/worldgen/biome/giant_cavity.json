@@ -1,10 +1,10 @@
 {
-  "temperature": 1.5,
+  "temperature": 2.0,
   "downfall": 0.0,
   "has_precipitation": false,
   "effects": {
     "sky_color": 16098851,
-    "fog_color": 14912316,
+    "fog_color": 3344392,
     "water_color": 4159204,
     "water_fog_color": 329011,
     "particle": {
@@ -15,15 +15,15 @@
   "carvers": {},
   "features": [
     [],
+    [ "infinitycraft:hot_sand_underground_lava_lake", "infinitycraft:hot_sand_underground_water_lake" ],
+    [ "infinitycraft:hot_sand_magma_disk_cave" ],
     [],
     [],
     [],
     [],
     [],
-    [],
-    [],
-    [ "infinitycraft:hot_sand_spring_water_oasis" ],
-    [ "minecraft:patch_grass_normal", "minecraft:patch_dead_bush_2", "infinitycraft:hot_sand_oasis_column" ]
+    [ "infinitycraft:hot_sand_spring_lava_cave_sparse", "infinitycraft:hot_sand_spring_water_cave" ],
+    []
   ],
   "spawn_costs": {},
   "spawners": {

@@ -1,11 +1,13 @@
 package com.himi.examplemod.jei;
 
 import com.himi.examplemod.infinitycraft;
+import com.himi.examplemod.recipe.PotionInheritingShapelessRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
@@ -25,6 +27,14 @@ public class InfinityMinecraftJeiPlugin implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
         return UID;
+    }
+
+    @Override
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        // 接管 potion_shapeless 在工作台配方页的展示（药水槽不再画成「不可合成的药水」）。
+        // JEI 按配方的具体类做精确匹配，因此这里注册的扩展优先于原版的 CraftingRecipe 默认扩展。
+        registration.getCraftingCategory()
+                .addExtension(PotionInheritingShapelessRecipe.class, new PotionShapelessCraftingExtension());
     }
 
     @Override

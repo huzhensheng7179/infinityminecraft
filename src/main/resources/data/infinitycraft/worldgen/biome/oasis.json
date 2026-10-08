@@ -15,7 +15,6 @@
   "carvers": {},
   "features": [
     [],
-    [ "infinitycraft:hot_sand_lake_water_oasis" ],
     [],
     [],
     [],
@@ -23,6 +22,7 @@
     [],
     [],
     [],
+    [ "infinitycraft:hot_sand_spring_water_oasis" ],
     [ "minecraft:patch_grass_normal", "minecraft:patch_dead_bush_2", "infinitycraft:hot_sand_oasis_column" ]
   ],
   "spawn_costs": {},
