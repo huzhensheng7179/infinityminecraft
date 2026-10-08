@@ -1,0 +1,28 @@
+{
+  "parent": "infinitycraft:root",
+  "display": {
+    "icon": {
+      "id": "infinitycraft:reverse_bow"
+    },
+    "title": {
+      "translate": "advancement.infinitycraft.reverse_bow_ghast.title"
+    },
+    "description": {
+      "translate": "advancement.infinitycraft.reverse_bow_ghast.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "code": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "code"
+    ]
+  ]
+}

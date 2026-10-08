@@ -52,6 +52,7 @@
   "item.infinitycraft.qiang_qiang": "？！Wall Wall？！",
   "item.infinitycraft.meteor_streak": "Meteor Streak",
   "item.infinitycraft.shadow_flow_necklace": "Shadow Flow Necklace",
+  "item.infinitycraft.reverse_bow": "Arrow Bow",
   "item.infinitycraft.mysterious_coin": "Mysterious Coin",
   "item.infinitycraft.mysterious_stone_ball": "Mysterious Stone Ball",
   "item.infinitycraft.world_slash": "World Slash",
@@ -167,5 +168,7 @@
   "advancement.infinitycraft.crude_spicy_candy.title": "I am willing to join Rhodes Island...",
   "advancement.infinitycraft.crude_spicy_candy.description": "Obtain the Crude Spicy Candy",
   "advancement.infinitycraft.bei_zhi_su.title": "A little gift from the shulker...",
-  "advancement.infinitycraft.bei_zhi_su.description": "Obtain Bei Zhi Su"
+  "advancement.infinitycraft.bei_zhi_su.description": "Obtain Bei Zhi Su",
+  "advancement.infinitycraft.reverse_bow_ghast.title": "My eyes, my eyes...",
+  "advancement.infinitycraft.reverse_bow_ghast.description": "Kill a Ghast by firing obsidian with the Arrow Bow"
 }

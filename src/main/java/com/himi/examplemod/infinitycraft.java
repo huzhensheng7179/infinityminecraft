@@ -11,6 +11,7 @@ import com.himi.examplemod.effect.CantCatchMeEffect;
 import com.himi.examplemod.effect.ChocoStormEffect;
 import com.himi.examplemod.effect.SuperBraveEffect;
 import com.himi.examplemod.effect.XuebiStormEffect;
+import com.himi.examplemod.entity.BlockProjectile;
 import com.himi.examplemod.entity.ShadowClone;
 import com.himi.examplemod.entity.WanderingSnifferMerchant;
 import com.himi.examplemod.item.BangBingItem;
@@ -24,6 +25,7 @@ import com.himi.examplemod.item.JinKeLaItem;
 import com.himi.examplemod.item.LostAncientBookItem;
 import com.himi.examplemod.item.MysteriousCoinItem;
 import com.himi.examplemod.item.MysteriousStoneBallItem;
+import com.himi.examplemod.item.ReverseBowItem;
 import com.himi.examplemod.item.SalilangTier;
 import com.himi.examplemod.item.WorldSlashItem;
 import com.himi.examplemod.item.XuebiItem;
@@ -252,6 +254,11 @@ public class infinitycraft {
     public static final DeferredItem<Item> SHADOW_FLOW_NECKLACE = ITEMS.registerSimpleItem("shadow_flow_necklace",
             new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
 
+    // 反之弓 - 蓄力弓类武器：不发射箭，而发射当前副手持有的方块（命中方块则放置、命中生物按方块硬度造成伤害；
+    // 岩浆块点燃目标、雪块造成冰冻伤害并减速；副手非方块/空则无法蓄力并发射，物品见 item/ReverseBowItem，弹射物见 entity/BlockProjectile）
+    public static final DeferredItem<ReverseBowItem> REVERSE_BOW = ITEMS.register("reverse_bow",
+            () -> new ReverseBowItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).durability(1000)));
+
     // 神秘硬币 - 手持右键发射蓝色粒子光线，命中实体/方块产生不破坏方块的爆炸，造成10~100000随机伤害，冷却30分钟
     public static final DeferredItem<Item> MYSTERIOUS_COIN = ITEMS.register("mysterious_coin",
             () -> new MysteriousCoinItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
@@ -421,6 +428,14 @@ public class infinitycraft {
     public static final DeferredItem<Item> WANDERING_SNIFFER_MERCHANT_SPAWN_EGG = ITEMS.register("wandering_sniffer_merchant_spawn_egg",
             () -> new DeferredSpawnEggItem(WANDERING_SNIFFER_MERCHANT, 0x8B5A2B, 0x6A8D3F, new Item.Properties()));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<BlockProjectile>> BLOCK_PROJECTILE =
+            ENTITY_TYPES.register("block_projectile",
+                    () -> EntityType.Builder.<BlockProjectile>of(BlockProjectile::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .clientTrackingRange(4)
+                            .updateInterval(10)
+                            .build("block_projectile"));
+
     // 影流分身 - 「影流项链」在佩戴者受到致命伤害时于原地生成的替身：与召唤者外观一致、无任何 AI、不移动不攻击，
     // 被攻击时立即消失并给攻击者施加反胃 III / 缓慢 III / 黑暗 II 各 12 秒，召唤者无法攻击自己的分身，存在 20 秒后自动消失
     // （实体见 entity/ShadowClone，渲染见 client/renderer/ShadowCloneRenderer，触发逻辑见 event/ShadowFlowNecklaceHandler）
@@ -458,6 +473,7 @@ public class infinitycraft {
                 output.accept(NOKIA.get());
                 output.accept(METEOR_STREAK.get());
                 output.accept(SHADOW_FLOW_NECKLACE.get());
+                output.accept(REVERSE_BOW.get());
                 output.accept(MYSTERIOUS_COIN.get());
                 output.accept(MYSTERIOUS_STONE_BALL.get());
                 output.accept(WORLD_SLASH.get());

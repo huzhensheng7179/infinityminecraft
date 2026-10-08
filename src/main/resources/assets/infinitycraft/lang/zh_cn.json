@@ -52,6 +52,7 @@
   "item.infinitycraft.qiang_qiang": "？！墙墙？！",
   "item.infinitycraft.meteor_streak": "流星一条",
   "item.infinitycraft.shadow_flow_necklace": "影流项链",
+  "item.infinitycraft.reverse_bow": "箭弓",
   "item.infinitycraft.mysterious_coin": "神秘硬币",
   "item.infinitycraft.mysterious_stone_ball": "神秘石球",
   "item.infinitycraft.world_slash": "世界斩",
@@ -167,5 +168,7 @@
   "advancement.infinitycraft.crude_spicy_candy.title": "我愿意加入罗德岛......",
   "advancement.infinitycraft.crude_spicy_candy.description": "获得粗制辣味糖果",
   "advancement.infinitycraft.bei_zhi_su.title": "潜影贝的小礼物......",
-  "advancement.infinitycraft.bei_zhi_su.description": "获得贝质素"
+  "advancement.infinitycraft.bei_zhi_su.description": "获得贝质素",
+  "advancement.infinitycraft.reverse_bow_ghast.title": "我的眼睛，我的眼睛......",
+  "advancement.infinitycraft.reverse_bow_ghast.description": "使用箭弓发射黑曜石击杀一只恶魂"
 }
