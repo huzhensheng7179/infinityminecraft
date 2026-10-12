@@ -9,9 +9,13 @@ import com.himi.examplemod.archaeology.StoneBallRewardTable;
 import com.himi.examplemod.block.HotSandPortalBlock;
 import com.himi.examplemod.effect.CantCatchMeEffect;
 import com.himi.examplemod.effect.ChocoStormEffect;
+import com.himi.examplemod.effect.SoulBurnEffect;
 import com.himi.examplemod.effect.SuperBraveEffect;
 import com.himi.examplemod.effect.XuebiStormEffect;
 import com.himi.examplemod.entity.BlockProjectile;
+import com.himi.examplemod.entity.FlameSalamander;
+import com.himi.examplemod.entity.ScorchingEye;
+import com.himi.examplemod.entity.ScytheReaper;
 import com.himi.examplemod.entity.ShadowClone;
 import com.himi.examplemod.entity.WanderingSnifferMerchant;
 import com.himi.examplemod.item.BangBingItem;
@@ -22,10 +26,13 @@ import com.himi.examplemod.item.DefyDeathItem;
 import com.himi.examplemod.item.EternalFlameTier;
 import com.himi.examplemod.item.GuguXuebiItem;
 import com.himi.examplemod.item.JinKeLaItem;
+import com.himi.examplemod.item.LollipopItem;
 import com.himi.examplemod.item.LostAncientBookItem;
 import com.himi.examplemod.item.MysteriousCoinItem;
 import com.himi.examplemod.item.MysteriousStoneBallItem;
 import com.himi.examplemod.item.ReverseBowItem;
+import com.himi.examplemod.item.RuinationItem;
+import com.himi.examplemod.item.RuinationTier;
 import com.himi.examplemod.item.SalilangTier;
 import com.himi.examplemod.item.WorldSlashItem;
 import com.himi.examplemod.item.XuebiItem;
@@ -38,6 +45,8 @@ import com.mojang.logging.LogUtils;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -45,11 +54,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -68,6 +79,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -85,6 +97,7 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -117,6 +130,8 @@ public class infinitycraft {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
     // Create a Deferred Register to hold Features under the "infinitycraft" namespace
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, MODID);
+    // Create a Deferred Register to hold ParticleTypes under the "infinitycraft" namespace
+    public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(Registries.PARTICLE_TYPE, MODID);
 
     // 考古学者职业的工作站点方块 - 原版陶罐（decorated_pot），认领其全部方块状态作为 POI
     public static final DeferredHolder<PoiType, PoiType> ARCHAEOLOGIST_POI = POI_TYPES.register("archaeologist",
@@ -281,6 +296,10 @@ public class infinitycraft {
     public static final DeferredItem<Item> CRUDE_SPICY_CANDY = ITEMS.registerSimpleItem("crude_spicy_candy",
             new Item.Properties().rarity(Rarity.RARE).stacksTo(1));
 
+    // 美袋团鼠（手镯） - 护符槽位，佩戴时每食用完一种食物，随机获得 1~3 个正面效果，持续 16 秒（逻辑见 event/SugarGliderBraceletHandler）
+    public static final DeferredItem<Item> SUGAR_GLIDER_BRACELET = ITEMS.registerSimpleItem("sugar_glider_bracelet",
+            new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
+
     // 火与钢 - 胸饰槽位，免疫火焰伤害，攻击附加火焰，攻击已燃烧目标无视护甲且伤害×5，每次攻击附加目标5%最大生命固定伤害
     public static final DeferredItem<Item> FIRE_AND_STEEL = ITEMS.registerSimpleItem("fire_and_steel",
             new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
@@ -309,6 +328,14 @@ public class infinitycraft {
             () -> new SwordItem(SalilangTier.INSTANCE, new Item.Properties()
                     .rarity(Rarity.RARE)
                     .attributes(SwordItem.createAttributes(SalilangTier.INSTANCE, 5.0F, -1.9F))));
+
+    // 破灭 - 8 形态切换剑（剑柄 + 7 把剑身）：手持按住 Shift 再右键循环切换形态，
+    // 各形态的伤害/攻速/贴图/名称由 item/RuinationItem 依形态编号动态改写（详见该类）
+    public static final DeferredItem<SwordItem> RUINATION = ITEMS.register("ruination",
+            () -> new RuinationItem(new Item.Properties()
+                    .rarity(Rarity.EPIC)
+                    .stacksTo(1)
+                    .attributes(SwordItem.createAttributes(RuinationTier.INSTANCE, 1.0F, -2.6F))));
 
     // 铜铸之刃 - 剑：6 点伤害、攻速 2.1、耐久 550；可在铁砧上与任意药水合成，把药水效果熔铸进剑身（同种取最高等级），
     // 像药水一样在物品提示中显示效果与时长，近战命中时为受击目标附加已熔铸的全部效果（见 event/CopperForgedBladeHandler）
@@ -379,6 +406,17 @@ public class infinitycraft {
                     .effect(() -> new MobEffectInstance(SUPER_BRAVE, 1200, 0), 1.0F)
                     .build())));
 
+    // 棒棒糖 - 食物：6 饱食度 / 12 饱和度，食用后清除自身全部负面效果；对玩家右键喂给对方并清其负面、对成年动物右键使其进入繁殖（逻辑见 item/LollipopItem）
+    public static final DeferredItem<Item> LOLLIPOP = ITEMS.register("lollipop",
+            () -> new LollipopItem(new Item.Properties().rarity(Rarity.UNCOMMON).food(new FoodProperties.Builder()
+                    .nutrition(6).saturationModifier(12.0F)
+                    .build())));
+
+    // 灵魂火灼烧 - 效果：「破灭·炎烧炽铁」右键强化后近战命中施加；蓝色灵魂火焰，每秒 3 点灵魂火伤害，
+    // 持续期间不能回血且被攻击时无视伤害吸收；因非火焰方块点燃，不受水/雨浇灭（逻辑见 effect/SoulBurnEffect、event/RuinationCombatHandler、event/RuinationDefenseHandler）
+    public static final DeferredHolder<MobEffect, MobEffect> SOUL_BURN =
+            MOB_EFFECTS.register("soul_burn", SoulBurnEffect::new);
+
     // 你跑不过我你信不信 - 效果：巧乐兹风暴 + 雪碧风暴同时存在时合成；提速、抬高台阶、周身冰冻光环、每秒自损，冲刺时全部翻倍
     public static final DeferredHolder<MobEffect, MobEffect> CANT_CATCH_ME =
             MOB_EFFECTS.register("cant_catch_me", CantCatchMeEffect::new);
@@ -391,6 +429,22 @@ public class infinitycraft {
     // bypasses_cooldown / bypasses_resistance 标签配置为无视护甲/无敌帧/抗性；message_id=world_slash 决定死亡播报
     public static final ResourceKey<DamageType> WORLD_SLASH_DAMAGE =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "world_slash"));
+
+    // 破灭·灵魂火伤害类型：数据驱动（data/infinitycraft/damage_type/ruination_soul_fire.json），message_id 复用原版 inFire
+    public static final ResourceKey<DamageType> RUINATION_SOUL_FIRE =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "ruination_soul_fire"));
+
+    // 破灭·寒冷伤害类型：数据驱动（data/infinitycraft/damage_type/ruination_cold.json），冽冰结雨降雪领域每秒结算
+    public static final ResourceKey<DamageType> RUINATION_COLD =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, "ruination_cold"));
+
+    // 破灭·辉桃百里樱花粒子：领域内飘落的花瓣（两张贴图随机取一，见 textures/particle/sakura_*.png 与 particles/*.json）
+    // 渲染 provider 见 client/particle/SakuraPetalParticle
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SAKURA_PETAL =
+            PARTICLE_TYPES.register("sakura_petal", () -> new SimpleParticleType(false));
+    // 破灭·辉桃百里强化剑气：弧形樱花剑气（自发光，快速飞行淡出），provider 见 client/particle/SakuraSlashParticle
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SAKURA_SLASH =
+            PARTICLE_TYPES.register("sakura_slash", () -> new SimpleParticleType(false));
 
     // 铡刃 - 剑/斧专属附魔（数据驱动 data/infinitycraft/enchantment/guillotine.json，最高 4 级）：
     // 击杀可掉落头颅的生物时按等级将头颅掉率变为 12%/24%/36%/48%（掉率逻辑见 event/GuillotineHandler）
@@ -446,6 +500,44 @@ public class infinitycraft {
                             .clientTrackingRange(10)
                             .build("shadow_clone"));
 
+    // 烈焰蝾螈 - GeckoLib 骨骼动画的两栖怪物：免疫火焰、主动攻击玩家与铁傀儡、近战点燃目标（实体见 entity/FlameSalamander，渲染见 client/renderer/FlameSalamanderRenderer）
+    public static final DeferredHolder<EntityType<?>, EntityType<FlameSalamander>> FLAME_SALAMANDER =
+            ENTITY_TYPES.register("flame_salamander",
+                    () -> EntityType.Builder.<FlameSalamander>of(FlameSalamander::new, MobCategory.MONSTER)
+                            .sized(0.9F, 0.8F)
+                            .clientTrackingRange(8)
+                            .fireImmune()
+                            .build("flame_salamander"));
+
+    // 烈焰蝾螈刷怪蛋 - 便于测试与获取
+    public static final DeferredItem<Item> FLAME_SALAMANDER_SPAWN_EGG = ITEMS.register("flame_salamander_spawn_egg",
+            () -> new DeferredSpawnEggItem(FLAME_SALAMANDER, 0xE8631A, 0x5A1F0A, new Item.Properties()));
+
+    // 炽热邪眼 - GeckoLib 骨骼动画的飞行怪物：免疫火焰、悬停飞行、近战点燃目标（实体见 entity/ScorchingEye，渲染见 client/renderer/ScorchingEyeRenderer，生成见 RegisterSpawnPlacementsEvent + biome_modifier）
+    public static final DeferredHolder<EntityType<?>, EntityType<ScorchingEye>> SCORCHING_EYE =
+            ENTITY_TYPES.register("scorching_eye",
+                    () -> EntityType.Builder.<ScorchingEye>of(ScorchingEye::new, MobCategory.MONSTER)
+                            .sized(0.6F, 0.6F)
+                            .clientTrackingRange(10)
+                            .fireImmune()
+                            .build("scorching_eye"));
+
+    // 炽热邪眼刷怪蛋 - 便于测试与获取
+    public static final DeferredItem<Item> SCORCHING_EYE_SPAWN_EGG = ITEMS.register("scorching_eye_spawn_egg",
+            () -> new DeferredSpawnEggItem(SCORCHING_EYE, 0xE8480A, 0x6E1400, new Item.Properties()));
+
+    // 镰恶魔 - GeckoLib 骨骼动画的飘浮近战怪物：白天阳光自燃、高伤挥镰（实体见 entity/ScytheReaper，渲染见 client/renderer/ScytheReaperRenderer，生成见 RegisterSpawnPlacementsEvent + biome_modifier）
+    public static final DeferredHolder<EntityType<?>, EntityType<ScytheReaper>> SCYTHE_REAPER =
+            ENTITY_TYPES.register("scythe_reaper",
+                    () -> EntityType.Builder.<ScytheReaper>of(ScytheReaper::new, MobCategory.MONSTER)
+                            .sized(0.6F, 1.8F)
+                            .clientTrackingRange(10)
+                            .build("scythe_reaper"));
+
+    // 镰恶魔刷怪蛋 - 便于测试与获取
+    public static final DeferredItem<Item> SCYTHE_REAPER_SPAWN_EGG = ITEMS.register("scythe_reaper_spawn_egg",
+            () -> new DeferredSpawnEggItem(SCYTHE_REAPER, 0x1E1B2E, 0x6A3FB5, new Item.Properties()));
+
     // 创造模式标签页：展示本模组全部自定义物品
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.infinitycraft"))
@@ -479,20 +571,26 @@ public class infinitycraft {
                 output.accept(WORLD_SLASH.get());
                 output.accept(JIE_TOILET_CLEANER.get());
                 output.accept(CRUDE_SPICY_CANDY.get());
+                output.accept(SUGAR_GLIDER_BRACELET.get());
                 output.accept(FIRE_AND_STEEL.get());
                 output.accept(DEFY_DEATH.get());
                 output.accept(TEMPERED_BLADE.get());
                 output.accept(ETERNAL_IN_FLAMES.get());
                 output.accept(SA_RI_LANG.get());
                 output.accept(COPPER_FORGED_BLADE.get());
+                output.accept(RUINATION.get());
                 output.accept(BANG_BING.get());
                 output.accept(QIAOLEZI.get());
                 output.accept(XUEBI.get());
                 output.accept(GUGU_XUEBI.get());
                 output.accept(SUPER_BRAVE_BEER.get());
+                output.accept(LOLLIPOP.get());
                 output.accept(LOST_ANCIENT_BOOK.get());
                 output.accept(JIN_KE_LA.get());
                 output.accept(WANDERING_SNIFFER_MERCHANT_SPAWN_EGG.get());
+                output.accept(FLAME_SALAMANDER_SPAWN_EGG.get());
+                output.accept(SCORCHING_EYE_SPAWN_EGG.get());
+                output.accept(SCYTHE_REAPER_SPAWN_EGG.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -518,8 +616,12 @@ public class infinitycraft {
         ENTITY_TYPES.register(modEventBus);
         // Register the Deferred Register to the mod event bus so features get registered
         FEATURES.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so particle types get registered
+        PARTICLE_TYPES.register(modEventBus);
         // Register entity attribute suppliers (mob event bus)
         modEventBus.addListener(this::registerEntityAttributes);
+        // 注册自定义生物的生成位置规则（不注册则自然生成会被跳过）
+        modEventBus.addListener(this::registerSpawnPlacements);
 
         // Register custom network payloads (e.g. open ender chest keybind)
         modEventBus.addListener(ModNetwork::register);
@@ -539,6 +641,28 @@ public class infinitycraft {
         event.put(WANDERING_SNIFFER_MERCHANT.get(), Sniffer.createAttributes().build());
         // 影流分身：无 AI 的静止替身（移速 0、抗击退满、被攻击即消失）
         event.put(SHADOW_CLONE.get(), ShadowClone.createAttributes().build());
+        // 烈焰蝾螈：GeckoLib 动画的两栖怪物（免疫火焰、近战点燃）
+        event.put(FLAME_SALAMANDER.get(), FlameSalamander.createAttributes().build());
+        // 炽热邪眼：GeckoLib 动画的飞行怪物（免疫火焰、悬停飞行、近战点燃）
+        event.put(SCORCHING_EYE.get(), ScorchingEye.createAttributes().build());
+        // 镰恶魔：GeckoLib 动画的飘浮近战怪物（30 血、高伤、白天阳光自燃）
+        event.put(SCYTHE_REAPER.get(), ScytheReaper.createAttributes().build());
+    }
+
+    // 为自定义怪物注册自然生成位置：贴地 + 需暗（Monster.checkMonsterSpawnRules 只在亮度不足处生成，
+    // 因而在下界/热砂地下与主世界洞穴、夜晚自然出现，主世界白天地表因过亮不会刷新）。
+    private void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        event.register(SCORCHING_EYE.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // 镰恶魔：同样需暗处生成（下界常年昏暗、主世界仅夜晚/洞穴会刷）
+        event.register(SCYTHE_REAPER.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 
     // 数据包同步（服务器启动 / /reload 全局重载）后刷新石球缓存：配方变动会改变「存在合成配方」的其他模组物品集合

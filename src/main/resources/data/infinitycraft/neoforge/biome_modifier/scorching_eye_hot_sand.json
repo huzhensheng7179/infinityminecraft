@@ -1,0 +1,15 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": [
+    "infinitycraft:giant_cavity",
+    "infinitycraft:deep_amethyst_cave"
+  ],
+  "spawners": [
+    {
+      "type": "infinitycraft:scorching_eye",
+      "weight": 12,
+      "minCount": 4,
+      "maxCount": 10
+    }
+  ]
+}

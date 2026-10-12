@@ -1,0 +1,42 @@
+﻿[DIR] 姝﹀櫒妯″瀷
+姝﹀櫒妯″瀷\666.png  (886984 bytes)  [2000x2000 png=true]
+[DIR] 姝﹀櫒妯″瀷\assets
+[DIR] 姝﹀櫒妯″瀷\assets\minecraft
+[DIR] 姝﹀櫒妯″瀷\assets\minecraft\models
+[DIR] 姝﹀櫒妯″瀷\assets\minecraft\models\item
+姝﹀櫒妯″瀷\assets\minecraft\models\item\bow.json  (553 bytes)  {keys:parent,textures,overrides}
+姝﹀櫒妯″瀷\assets\minecraft\models\item\diamond_axe.json  (210 bytes)  {keys:parent,textures,overrides}
+姝﹀櫒妯″瀷\assets\minecraft\models\item\diamond_hoe.json  (209 bytes)  {keys:parent,textures,overrides}
+姝﹀櫒妯″瀷\assets\minecraft\models\item\diamond_pickaxe.json  (217 bytes)  {keys:parent,textures,overrides}
+姝﹀櫒妯″瀷\assets\minecraft\models\item\diamond_shovel.json  (216 bytes)  {keys:parent,textures,overrides}
+姝﹀櫒妯″瀷\assets\minecraft\models\item\diamond_sword.json  (215 bytes)  {keys:parent,textures,overrides}
+[DIR] 姝﹀櫒妯″瀷\assets\minecraft\models\item\steampunk
+姝﹀櫒妯″瀷\assets\minecraft\models\item\steampunk\steampunk_axe.json  (50084 bytes)  {keys:credit,texture_size,textures,elements,gui_light,display,groups} texSize=[32,32] elements=91
+姝﹀櫒妯″瀷\assets\minecraft\models\item\steampunk\steampunk_bow_0.json  (58032 bytes)  {keys:credit,texture_size,textures,elements,gui_light,display,groups} texSize=[32,32] elements=104
+姝﹀櫒妯″瀷\assets\minecraft\models\item\steampunk\steampunk_hoe.json  (52222 bytes)  {keys:credit,textures,elements,gui_light,display,groups} elements=95
+姝﹀櫒妯″瀷\assets\minecraft\models\item\steampunk\steampunk_pickaxe.json  (49901 bytes)  {keys:credit,textures,elements,gui_light,display,groups} elements=91
+姝﹀櫒妯″瀷\assets\minecraft\models\item\steampunk\steampunk_shovel.json  (48953 bytes)  {keys:credit,texture_size,textures,elements,gui_light,display,groups} texSize=[32,32] elements=89
+姝﹀櫒妯″瀷\assets\minecraft\models\item\steampunk\steampunk_sword.json  (46328 bytes)  {keys:credit,texture_size,textures,elements,gui_light,display,groups} texSize=[32,32] elements=84
+[DIR] 姝﹀櫒妯″瀷\assets\minecraft\textures
+[DIR] 姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steam.png  (1848 bytes)  [16x256 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steam.png.mcmeta  (44 bytes)  <{ "animation": { "frametime": 2 } } >
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_axe.png  (2956 bytes)  [64x64 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_bow.png  (3630 bytes)  [80x80 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_bowstring.png  (512 bytes)  [64x64 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_gear.png  (3890 bytes)  [64x1024 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_gear.png.mcmeta  (44 bytes)  <{ "animation": { "frametime": 2 } } >
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_gear_bow.png  (3890 bytes)  [64x1024 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_gear_bow.png.mcmeta  (44 bytes)  <{ "animation": { "frametime": 1 } } >
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_hoe.png  (2903 bytes)  [64x64 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_pickaxe.png  (3010 bytes)  [64x64 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_shovel.png  (2751 bytes)  [64x64 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steampunk_sword.png  (2461 bytes)  [64x64 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steam_bow.png  (1848 bytes)  [16x256 png=true]
+姝﹀櫒妯″瀷\assets\minecraft\textures\steampunk\steam_bow.png.mcmeta  (44 bytes)  <{ "animation": { "frametime": 1 } } >
+姝﹀櫒妯″瀷\pack.mcmeta  (142 bytes)  <{ "pack": { "pack_format": 6, "description": "搂cTest and preview for 搂f搂lmcmodel 搂cbuyers 搂6Created by 搂d搂lKanekiAkira" } }>
+姝﹀櫒妯″瀷\readme!.txt  (1125 bytes)
+[DIR] 鐑堢劙铦捐瀳
+鐑堢劙铦捐瀳\geo.animation.json  (61655 bytes)  {keys:format_version,animations} fmt=1.8.0
+鐑堢劙铦捐瀳\geo.json  (28152 bytes)  {keys:format_version,minecraft:geometry} fmt=1.12.0
+鐑堢劙铦捐瀳\geo.png  (16161 bytes)  [128x128 png=true]

@@ -41,6 +41,11 @@ repositories {
         name = "Curios"
         url = uri("https://maven.theillusivec4.top/")
     }
+    // GeckoLib Maven（动画引擎前置）
+    maven {
+        name = "GeckoLib"
+        url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    }
     // Modrinth Maven —— 仅用于测试端拉取 Jade / Xaero's 小地图 / Xaero's 世界地图
     exclusiveContent {
         forRepository {
@@ -149,6 +154,10 @@ dependencies {
     // Curios API - compile against the API, use full jar at runtime
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    // GeckoLib（动画引擎）- 编译期依赖 API，开发运行期加载完整 jar；作为独立前置模组不随本模组打包发布
+    compileOnly "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    localRuntime "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // ===== 测试端专用客户端模组（仅运行时加载，不编译依赖、不随本模组发布）=====
     // Jade：方块/实体信息显示（WAILA 类）

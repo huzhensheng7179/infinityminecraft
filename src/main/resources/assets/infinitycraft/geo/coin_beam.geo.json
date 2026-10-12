@@ -1,0 +1,54 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.coin_beam",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 3,
+				"visible_bounds_offset": [0, 0, 0]
+			},
+			"bones": [
+				{
+					"name": "beam",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{
+							"origin": [-8, -8, 0],
+							"size": [16, 16, 256],
+							"uv": {
+								"north": { "uv": [0, 0], "uv_size": [16, 16] },
+								"east": { "uv": [0, 0], "uv_size": [64, 16] },
+								"south": { "uv": [0, 0], "uv_size": [16, 16] },
+								"west": { "uv": [0, 0], "uv_size": [64, 16] },
+								"up": { "uv": [0, 0], "uv_size": [64, 16] },
+								"down": { "uv": [0, 0], "uv_size": [64, 16] }
+							}
+						}
+					]
+				},
+				{
+					"name": "tip",
+					"parent": "beam",
+					"pivot": [0, 0, 256],
+					"cubes": [
+						{
+							"origin": [-12, -12, 244],
+							"size": [24, 24, 24],
+							"uv": {
+								"north": { "uv": [16, 16], "uv_size": [24, 24] },
+								"east": { "uv": [16, 16], "uv_size": [24, 24] },
+								"south": { "uv": [16, 16], "uv_size": [24, 24] },
+								"west": { "uv": [16, 16], "uv_size": [24, 24] },
+								"up": { "uv": [16, 16], "uv_size": [24, 24] },
+								"down": { "uv": [16, 16], "uv_size": [24, 24] }
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

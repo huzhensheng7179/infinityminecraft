@@ -1,0 +1,35 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": [
+    "infinitycraft:ash_beach",
+    "infinitycraft:ash_plains",
+    "infinitycraft:basalt_delta",
+    "infinitycraft:basalt_spikes",
+    "infinitycraft:blackstone_peaks",
+    "infinitycraft:blackstone_wastes",
+    "infinitycraft:eroded_hot_sand",
+    "infinitycraft:hot_sand_coast",
+    "infinitycraft:hot_sand_dunes",
+    "infinitycraft:hot_sand_highlands",
+    "infinitycraft:hot_sand_plains",
+    "infinitycraft:hot_sand_volcano",
+    "infinitycraft:lava_deep_ocean",
+    "infinitycraft:lava_plateau",
+    "infinitycraft:lava_river",
+    "infinitycraft:lava_sea",
+    "infinitycraft:lava_shoal",
+    "infinitycraft:lush_oasis",
+    "infinitycraft:oasis",
+    "infinitycraft:obsidian_wasteland",
+    "infinitycraft:scorched_fields",
+    "infinitycraft:terracotta_hills"
+  ],
+  "spawners": [
+    {
+      "type": "infinitycraft:flame_salamander",
+      "weight": 40,
+      "minCount": 1,
+      "maxCount": 3
+    }
+  ]
+}

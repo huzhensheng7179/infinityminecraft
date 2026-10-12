@@ -46,7 +46,7 @@ authors="HI_MI_"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-无限世界（infinitycraft）- 自定义物品 / Curios 饰品 / 热砂世界维度 / 考古系统的综合模组
+Infinity Craft (infinitycraft) - a mod of custom items / Curios accessories / Hot Sand dimension / archaeology system
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
@@ -99,6 +99,14 @@ config="${mod_id}.mixins.json"
     modId="curios"
     type="required"
     versionRange="[9.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+# GeckoLib (animation engine) - required dependency
+[[dependencies.${mod_id}]]
+    modId="geckolib"
+    type="required"
+    versionRange="[4.5,)"
     ordering="NONE"
     side="BOTH"
 

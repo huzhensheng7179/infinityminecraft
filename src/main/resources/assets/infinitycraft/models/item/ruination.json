@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "infinitycraft:item/ruination"
+  },
+  "overrides": [
+    { "predicate": { "infinitycraft:form": 1 }, "model": "infinitycraft:item/ruination_1" },
+    { "predicate": { "infinitycraft:form": 2 }, "model": "infinitycraft:item/ruination_2" },
+    { "predicate": { "infinitycraft:form": 3 }, "model": "infinitycraft:item/ruination_3" },
+    { "predicate": { "infinitycraft:form": 4 }, "model": "infinitycraft:item/ruination_4" },
+    { "predicate": { "infinitycraft:form": 5 }, "model": "infinitycraft:item/ruination_5" },
+    { "predicate": { "infinitycraft:form": 6 }, "model": "infinitycraft:item/ruination_6" },
+    { "predicate": { "infinitycraft:form": 7 }, "model": "infinitycraft:item/ruination_7" }
+  ]
+}
